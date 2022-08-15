@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "95505930885",
+    "project_id": "qadha-bad5c",
+    "storage_bucket": "qadha-bad5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95505930885:android:0c6b35c3a2ed2c5e9b27ec",
+        "android_client_info": {
+          "package_name": "com.example.qadha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95505930885-n1p2fhg7hamor752021vv2ajpu8eok3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL_z9jvQ3gObXVI8LcS1AE_BYFn_aHPrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95505930885-n1p2fhg7hamor752021vv2ajpu8eok3a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "95505930885-8rvfovcu3gqrc3ujljevqvb1g9l2fhfi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hobapps.qadha"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

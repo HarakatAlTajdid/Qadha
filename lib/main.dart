@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/app/locator.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  initializeDateFormatting("fr_fr");
 
   runApp(MyApp());
 }

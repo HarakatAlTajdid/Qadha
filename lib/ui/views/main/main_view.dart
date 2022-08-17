@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
 class MainView extends StatefulWidget {
@@ -17,7 +19,7 @@ class _MainViewState extends State<MainView> {
         child: Icon(
           icon,
           color: AppTheme.primaryColor,
-          size: 45,
+          size: 42.5,
         ));
   }
 
@@ -34,7 +36,7 @@ class _MainViewState extends State<MainView> {
             SizedBox(
               width: size.width / 1.75,
               child: Container(
-                height: 45,
+                height: 42.5,
                 decoration: BoxDecoration(
                     color: AppTheme.secundaryColor,
                     borderRadius: BorderRadius.circular(5)),
@@ -42,7 +44,7 @@ class _MainViewState extends State<MainView> {
                   child: Text(name,
                       style: TextStyle(
                           color: AppTheme.primaryColor,
-                          fontSize: 17,
+                          fontSize: 16,
                           fontFamily: "Inter Bold")),
                 ),
               ),
@@ -68,34 +70,61 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 20),
-        Center(
-            child: Image.asset(
-          "assets/images/qadha_blue.png",
-          width: 52.5,
-        )),
-        const SizedBox(height: 30),
-        const Text("Combien de prières avez-vous rattrapées aujourd'hui ?",
-            style: TextStyle(fontSize: 14.5, fontFamily: "Inter Regular")),
-        SizedBox(
-          height: size.height / 2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Stack(
+        children: [
+          SvgPicture.asset(
+            "assets/images/ladderbg.svg",
+            fit: BoxFit.cover,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildSalatTile("FAJR"),
-              _buildSalatTile("DHOR"),
-              _buildSalatTile("ASR"),
-              _buildSalatTile("MAGHREB"),
-              _buildSalatTile("ISHAA"),
+              Center(
+                  child: Image.asset(
+                "assets/images/qadha_blue.png",
+                width: 52.5,
+              )),
+              const SizedBox(height: 30),
+              const Text(
+                  "Combien de prières avez-vous rattrapées aujourd'hui ?",
+                  style:
+                      TextStyle(fontSize: 14.5, fontFamily: "Inter Regular")),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildSalatTile("FAJR"),
+                    _buildSalatTile("DHOR"),
+                    _buildSalatTile("ASR"),
+                    _buildSalatTile("MAGHREB"),
+                    _buildSalatTile("ISHAA"),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              FractionallySizedBox(
+                  widthFactor: 0.75,
+                  child: LinearPercentIndicator(
+                    animation: true,
+                    lineHeight: 18,
+                    animationDuration: 2000,
+                    percent: 0.65,
+                    trailing: const Text("65%",
+                        style: TextStyle(fontFamily: "Inter Regular")),
+                    barRadius: const Radius.circular(6),
+                    backgroundColor: AppTheme.deadColor.withOpacity(0.65),
+                    progressColor: AppTheme.accentColor,
+                  )),
+              const SizedBox(height: 12.5),
+              const Text("Plus que 10 avant de débloquer une nouvelle histoire",
+                  style: TextStyle(fontFamily: "Inter Regular")),
+              const SizedBox(height: 5)
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

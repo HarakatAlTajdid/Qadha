@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/app/locator.dart';
@@ -54,8 +52,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      lazyLoad: false,
-      animationDuration: const Duration(seconds: 0),
+        lazyLoad: false,
+        animationDuration: const Duration(seconds: 0),
         resizeToAvoidBottomInset: false,
         routes: const [
           MainRoute(),
@@ -68,21 +66,31 @@ class _HomeViewState extends State<HomeView> {
               backgroundColor: AppTheme.primaryColor,
               centerTitle: true,
               toolbarHeight: 70,
+              shadowColor: Colors.transparent,
               title: Text(navbarItems[tabsRouter.activeIndex].label,
                   style: const TextStyle(
-                      color: Colors.black, fontSize: 18, fontFamily: "Inter Regular")),
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontFamily: "Inter Regular")),
+              bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(1.0),
+                  child: Container(
+                    color: AppTheme.deadColor,
+                    height: 0.65,
+                  )),
               actions: [
                 SizedBox(
                   width: 70,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Icon(Icons.notifications, color: Colors.grey, size: 26),
-                  CircleAvatar(
-                    backgroundColor: AppTheme.deadColor,
-                    radius: 10,
-                  ),
-                  const SizedBox(width: 7.5)
+                      const Icon(Icons.notifications,
+                          color: Colors.grey, size: 26),
+                      CircleAvatar(
+                        backgroundColor: AppTheme.deadColor,
+                        radius: 10,
+                      ),
+                      const SizedBox(width: 7.5)
                     ],
                   ),
                 ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
@@ -43,7 +41,7 @@ class _QadhaNavbarState extends State<QadhaNavbar> {
                   color: selectedItem.label == item.label
                       ? AppTheme.secundaryColor
                       : AppTheme.primaryColor,
-                  width: 3))),
+                  width: 4))),
       child: Padding(
           padding: const EdgeInsets.only(bottom: 40, top: 10),
           child: InkWell(

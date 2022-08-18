@@ -14,6 +14,9 @@ class QadhaMonthlyCalendar extends StatefulWidget {
 class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final itemWidth = (size.width - 20) / 7;
+
     const tableDescriptorStyle = TextStyle(fontFamily: "Inter Regular");
 
     return ViewModelBuilder<QadhaMonthlyCalendarViewModel>.reactive(
@@ -68,7 +71,7 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                       color: AppTheme.deadColor.withOpacity(0.6)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [
@@ -82,20 +85,62 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12.5),
+                const SizedBox(height: 5),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: GridView.count(
                       childAspectRatio: 1.45,
                       crossAxisCount: 7,
                       physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(model.days.length, (index) {
                         final day = model.days[index];
-                        return Text(
-                          day.day.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: day.month != model.currentFrame.month ? AppTheme.metallicColor : Colors.black)
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Stack(children: [
+                            if (day == model.selectionStart ||
+                                day == model.selectionEnd)
+                              Row(
+                                mainAxisAlignment: day == model.selectionStart
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: itemWidth / 2,
+                                      color: AppTheme.purpleColor
+                                          .withOpacity(0.5)),
+                                ],
+                              ),
+                            if (day.difference(model.selectionStart).inDays >
+                                    0 &&
+                                day.difference(model.selectionEnd).inDays < 0)
+                              Container(
+                                  color: AppTheme.purpleColor.withOpacity(0.5)),
+                            Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(5.5),
+                                decoration: day == model.selectionStart ||
+                                        day == model.selectionEnd
+                                    ? BoxDecoration(
+                                        color: AppTheme.secundaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(360))
+                                    : null,
+                                child: Text(day.day.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontFamily: "Inter SemiBold",
+                                        fontSize: 13,
+                                        color: day == model.selectionStart ||
+                                                day == model.selectionEnd
+                                            ? AppTheme.primaryColor
+                                            : day.month !=
+                                                    model.currentFrame.month
+                                                ? AppTheme.deadColor
+                                                : AppTheme.metallicColor)),
+                              ),
+                            ),
+                          ]),
                         );
                       }),
                     ),

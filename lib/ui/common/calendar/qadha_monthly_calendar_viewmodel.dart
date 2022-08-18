@@ -5,7 +5,13 @@ class QadhaMonthlyCalendarViewModel extends BaseViewModel {
   late DateTime currentFrame;
   List<DateTime> days = []; // 42 days needed
 
+  late final DateTime selectionStart;
+  late final DateTime selectionEnd;
+
   QadhaMonthlyCalendarViewModel() {
+    selectionStart = DateTime(2022, 7, 22);
+    selectionEnd = DateTime(2022, 8, 17);
+
     currentFrame = DateTime(DateTime.now().year, DateTime.now().month);
     getDaysForCurrentFrame();
   }
@@ -49,8 +55,6 @@ class QadhaMonthlyCalendarViewModel extends BaseViewModel {
       }
     }
 
-    print("hey");
-    
     notifyListeners();
   }
 }

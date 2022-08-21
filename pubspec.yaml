@@ -44,6 +44,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - assets/images/icons/blue/
 
   fonts:
   - family: Inter Bold

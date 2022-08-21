@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
@@ -80,14 +81,19 @@ class _HomeViewState extends State<HomeView> {
                     color: AppTheme.deadColor,
                     height: 0.65,
                   )),
+              leadingWidth: 41.5,
+              leading: Padding(
+                  padding: const EdgeInsets.only(left: 17.5),
+                  child: SvgPicture.asset("assets/images/icons/search.svg",
+                      fit: BoxFit.contain)),
               actions: [
                 SizedBox(
                   width: 70,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Icon(Icons.notifications,
-                          color: Colors.grey, size: 26),
+                      SvgPicture.asset("assets/images/icons/bell.svg"),
+                      const SizedBox(width: 2.5),
                       CircleAvatar(
                         backgroundColor: AppTheme.deadColor,
                         radius: 10,

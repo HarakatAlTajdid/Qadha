@@ -41,8 +41,23 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                             },
                             child: Padding(
                                 padding: const EdgeInsets.all(7.5),
-                                child: Icon(Icons.arrow_back_ios,
-                                    color: AppTheme.metallicColor, size: 15))),
+                                child: Row(
+                                  children: [
+                                    if (model.currentFrame.month >
+                                        model.selectionEnd.month)
+                                      Container(
+                                          width: 7.5,
+                                          height: 7.5,
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.secundaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(360))),
+                                    const SizedBox(width: 9),
+                                    Icon(Icons.arrow_back_ios,
+                                        color: AppTheme.metallicColor,
+                                        size: 15),
+                                  ],
+                                ))),
                       ),
                       Text(model.prettyCurrentFrame().toUpperCase(),
                           style: TextStyle(
@@ -58,8 +73,23 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                             },
                             child: Padding(
                                 padding: const EdgeInsets.all(7.5),
-                                child: Icon(Icons.arrow_forward_ios,
-                                    color: AppTheme.metallicColor, size: 15))),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.arrow_forward_ios,
+                                        color: AppTheme.metallicColor,
+                                        size: 15),
+                                    const SizedBox(width: 5),
+                                    if (model.currentFrame.month <
+                                        model.selectionStart.month)
+                                      Container(
+                                          width: 7.5,
+                                          height: 7.5,
+                                          decoration: BoxDecoration(
+                                              color: AppTheme.secundaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(360)))
+                                  ],
+                                ))),
                       ),
                     ],
                   ),

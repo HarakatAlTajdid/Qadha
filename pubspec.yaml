@@ -32,6 +32,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   fl_chart: ^0.55.1
   cloud_firestore: ^3.4.6
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

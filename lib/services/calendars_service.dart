@@ -18,15 +18,15 @@ class CalendarsService {
     return calendars;
   }
 
-  Future<bool> addCalendar(CalendarModel calendar) async {
+  // This method returns the newly created document's id
+  Future<String> addCalendar(CalendarModel calendar) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
 
     final userDataRef =
         FirebaseFirestore.instance.collection('userdata').doc(uid);
 
-    await userDataRef.collection("calendars").add(calendar.toJson());
-
-    return true;
+    final docRef = await userDataRef.collection("calendars").add(calendar.toJson());
+    return docRef.id;
   }
 
   Future<bool> deleteCalendar(CalendarModel calendar) async {

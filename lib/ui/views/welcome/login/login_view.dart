@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
                                       ),
 
                               const SizedBox(height: 2),
-                              GestureDetector(
+                              /*GestureDetector(
                                 onTap: () {
                                   model.setStayConnected(!model.stayConnected);
                                 },
@@ -132,7 +132,7 @@ class _LoginViewState extends State<LoginView> {
                                                 fontSize: 15)))
                                   ],
                                 ),
-                              ),
+                              ),*/
                               SizedBox(
                                   height: 53.5,
                                   child: QadhaButton(

@@ -16,8 +16,8 @@ class CalendarModel {
 
   bool intersectsWith(CalendarModel other) {
     return start == other.start ||
-    start == other.end ||
-    end == other.start ||
+        start == other.end ||
+        end == other.start ||
         end == other.end ||
         (start.isAfter(other.start) && start.isBefore(other.end)) ||
         (end.isAfter(other.start) && end.isBefore(other.end));

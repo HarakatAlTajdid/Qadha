@@ -78,7 +78,7 @@ class _MainViewState extends State<MainView> {
                     animationDuration: 2000,
                     percent: name.length * 0.07,
                     trailing: Text("reste encore ${(407 / name.length).round()}  ",
-                        style: TextStyle(fontFamily: "Inter Regular", fontSize: 12)),
+                        style: const TextStyle(fontFamily: "Inter Regular", fontSize: 12)),
                     barRadius: const Radius.circular(6),
                     backgroundColor: AppTheme.deadColor.withOpacity(0.65),
                     progressColor: AppTheme.accentColor,

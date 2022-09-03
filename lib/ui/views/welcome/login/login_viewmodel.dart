@@ -9,19 +9,12 @@ import 'package:stacked/stacked.dart';
 class LoginViewModel extends BaseViewModel {
   final AuthenticationService _authenticationService = locator<AuthenticationService>();
 
-  bool stayConnected = false;
-  
   bool isWorking = false;
   bool formHasError = false;
   String errorMessage = "";
 
   void navigateToStart(BuildContext context) {
     AutoRouter.of(context).pop();
-  }
-
-  void setStayConnected(bool value) {
-    stayConnected = value;
-    notifyListeners();
   }
 
   void loginWithCredentials(BuildContext context, String phoneCode, String phoneNumber, String password) async {

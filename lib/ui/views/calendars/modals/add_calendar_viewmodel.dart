@@ -1,22 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qadha/models/calendar_model.dart';
-import 'package:qadha/services/calendars_service.dart';
-import 'package:qadha/ui/app/locator.dart';
-import 'package:stacked/stacked.dart';
+import 'package:qadha/providers/calendar_provider.dart';
 
-class AddCalendarViewModel extends BaseViewModel {
-  final CalendarsService _calendarsService = locator<CalendarsService>();
-  final List<CalendarModel> calendars;
-
+class AddCalendarViewModel extends ChangeNotifier {
   DateTime? start;
   DateTime? end;
   int step = 1; // 1 = start, 2 = end, 3 = done
 
   bool isWorking = false;
   bool calendarOverlapError = false;
-
-  AddCalendarViewModel(this.calendars);
 
   void select(DateTime day) {
     if (step == 1) {
@@ -40,7 +34,7 @@ class AddCalendarViewModel extends BaseViewModel {
     notifyListeners();
 
     final newCalendar = CalendarModel(start!, end!);
-    for (final calendar in calendars) {
+    for (final calendar in context.read<CalendarProvider>().calendars) {
       if (newCalendar.intersectsWith(calendar)) {
         calendarOverlapError = true;
         isWorking = false;
@@ -49,7 +43,7 @@ class AddCalendarViewModel extends BaseViewModel {
       }
     }
 
-    await _calendarsService.addCalendar(newCalendar);
+    await context.read<CalendarProvider>().addCalendar(newCalendar);
 
     // ignore: use_build_context_synchronously
     AutoRouter.of(context).pop();

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:qadha/models/exceptions/authentication_exception.dart';
 import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/locator.dart';

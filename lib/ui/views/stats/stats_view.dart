@@ -135,7 +135,11 @@ class _StatsViewState extends State<StatsView> {
               getTitlesWidget: (_, meta) {
                 return Padding(
                     padding: const EdgeInsets.only(top: 9),
-                    child: Text(meta.formattedValue));
+                    child: Text(meta.formattedValue,
+                        style: TextStyle(
+                            color: int.parse(meta.formattedValue) < 15
+                                ? Colors.black54
+                                : Colors.black)));
               }),
         ),
         leftTitles: AxisTitles(
@@ -182,7 +186,7 @@ class _StatsViewState extends State<StatsView> {
             FlSpot(25, 7),
             FlSpot(26, 8),
             FlSpot(27, 9),
-                        FlSpot(28, 1),
+            FlSpot(28, 1),
             FlSpot(29, 2),
           ],
           color: AppTheme.secundaryColor,
@@ -290,7 +294,7 @@ class _StatsViewState extends State<StatsView> {
     );
   }
 
-    Widget _buildMonthlyProgress() {
+  Widget _buildMonthlyProgress() {
     final size = MediaQuery.of(context).size;
 
     return Container(

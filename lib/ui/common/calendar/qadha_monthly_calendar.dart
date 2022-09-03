@@ -5,7 +5,16 @@ import 'package:stacked/stacked.dart';
 import 'qadha_monthly_calendar_viewmodel.dart';
 
 class QadhaMonthlyCalendar extends StatefulWidget {
-  const QadhaMonthlyCalendar({Key? key}) : super(key: key);
+  const QadhaMonthlyCalendar(this.selectionStart, this.selectionEnd,
+      {Key? key, this.allowInteraction = false, this.onInteraction, this.allowDeletion = false, this.onDeletion})
+      : super(key: key);
+
+  final DateTime? selectionStart;
+  final DateTime? selectionEnd;
+  final bool allowInteraction;
+  final Function(DateTime)? onInteraction;
+  final bool allowDeletion;
+  final Function()? onDeletion;
 
   @override
   State<QadhaMonthlyCalendar> createState() => _QadhaMonthlyCalendarState();
@@ -27,72 +36,92 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
             child: Column(
               children: [
                 const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Material(
-                        color: AppTheme.primaryColor,
-                        child: InkWell(
-                            customBorder: const CircleBorder(),
-                            onTap: () {
-                              model.setFrame(-1);
-                            },
-                            child: Padding(
-                                padding: const EdgeInsets.all(7.5),
-                                child: Row(
-                                  children: [
-                                    if (model.currentFrame.month >
-                                        model.selectionEnd.month)
-                                      Container(
-                                          width: 7.5,
-                                          height: 7.5,
-                                          decoration: BoxDecoration(
-                                              color: AppTheme.secundaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(360))),
-                                    const SizedBox(width: 9),
-                                    Icon(Icons.arrow_back_ios,
-                                        color: AppTheme.metallicColor,
-                                        size: 15),
-                                  ],
-                                ))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Material(
+                              color: AppTheme.primaryColor,
+                              child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: () {
+                                    model.setFrame(-1);
+                                  },
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(7.5),
+                                      child: Row(
+                                        children: [
+                                          if (model.selectionEnd != null &&
+                                              model.currentFrame.month >
+                                                  model.selectionEnd!.month)
+                                            Container(
+                                                width: 7.5,
+                                                height: 7.5,
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.secundaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(360))),
+                                          const SizedBox(width: 9),
+                                          Icon(Icons.arrow_back_ios,
+                                              color: AppTheme.metallicColor,
+                                              size: 15),
+                                        ],
+                                      ))),
+                            ),
+                            Text(model.prettyCurrentFrame().toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: "Inter Regular",
+                                    color: AppTheme.metallicColor)),
+                            Material(
+                              color: AppTheme.primaryColor,
+                              child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: () {
+                                    model.setFrame(1);
+                                  },
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(7.5),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.arrow_forward_ios,
+                                              color: AppTheme.metallicColor,
+                                              size: 15),
+                                          const SizedBox(width: 5),
+                                          if (model.selectionStart != null &&
+                                              model.currentFrame.month <
+                                                  model.selectionStart!.month)
+                                            Container(
+                                                width: 7.5,
+                                                height: 7.5,
+                                                decoration: BoxDecoration(
+                                                    color: AppTheme.secundaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(360))),
+                                        ],
+                                      ))),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(model.prettyCurrentFrame().toUpperCase(),
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: "Inter Regular",
-                              color: AppTheme.metallicColor)),
-                      Material(
-                        color: AppTheme.primaryColor,
-                        child: InkWell(
-                            customBorder: const CircleBorder(),
-                            onTap: () {
-                              model.setFrame(1);
-                            },
+                    ),
+                    if (widget.allowDeletion)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Material(
+                          child: InkWell(
+                            onTap: widget.onDeletion,
+                            borderRadius: BorderRadius.circular(360),
                             child: Padding(
-                                padding: const EdgeInsets.all(7.5),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.arrow_forward_ios,
-                                        color: AppTheme.metallicColor,
-                                        size: 15),
-                                    const SizedBox(width: 5),
-                                    if (model.currentFrame.month <
-                                        model.selectionStart.month)
-                                      Container(
-                                          width: 7.5,
-                                          height: 7.5,
-                                          decoration: BoxDecoration(
-                                              color: AppTheme.secundaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(360)))
-                                  ],
-                                ))),
-                      ),
-                    ],
-                  ),
+                              padding: const EdgeInsets.all(3),
+                              child: Icon(Icons.close_rounded, color: AppTheme.metallicColor, size: 22,)))),
+                      )
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -128,7 +157,9 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2),
                           child: Stack(children: [
-                            if (day == model.selectionStart ||
+                            if (model.selectionStart != null &&
+                                    model.selectionEnd != null &&
+                                    day == model.selectionStart ||
                                 day == model.selectionEnd)
                               Row(
                                 mainAxisAlignment: day == model.selectionStart
@@ -141,33 +172,51 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                                           .withOpacity(0.5)),
                                 ],
                               ),
-                            if (day.difference(model.selectionStart).inDays >
+                            if (model.selectionStart != null &&
+                                model.selectionEnd != null &&
+                                day.difference(model.selectionStart!).inDays >
                                     0 &&
-                                day.difference(model.selectionEnd).inDays < 0)
+                                day.difference(model.selectionEnd!).inDays < 0)
                               Container(
                                   color: AppTheme.purpleColor.withOpacity(0.5)),
                             Center(
-                              child: Container(
-                                padding: const EdgeInsets.all(5.5),
-                                decoration: day == model.selectionStart ||
-                                        day == model.selectionEnd
-                                    ? BoxDecoration(
-                                        color: AppTheme.secundaryColor,
-                                        borderRadius:
-                                            BorderRadius.circular(360))
-                                    : null,
-                                child: Text(day.day.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontFamily: "Inter SemiBold",
-                                        fontSize: 13,
-                                        color: day == model.selectionStart ||
-                                                day == model.selectionEnd
-                                            ? AppTheme.primaryColor
-                                            : day.month !=
-                                                    model.currentFrame.month
-                                                ? AppTheme.deadColor
-                                                : AppTheme.metallicColor)),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(360),
+                                  splashColor:
+                                      AppTheme.secundaryColor.withOpacity(0.5),
+                                  onTap: widget.allowInteraction
+                                      ? () {
+                                          widget.onInteraction!(day);
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(6),
+                                    constraints:
+                                        const BoxConstraints(minWidth: 27),
+                                    decoration: day == model.selectionStart ||
+                                            day == model.selectionEnd
+                                        ? BoxDecoration(
+                                            color: AppTheme.secundaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(360))
+                                        : null,
+                                    child: Text(day.day.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: "Inter SemiBold",
+                                            fontSize: 13,
+                                            color: day ==
+                                                        model.selectionStart ||
+                                                    day == model.selectionEnd
+                                                ? AppTheme.primaryColor
+                                                : day.month !=
+                                                        model.currentFrame.month
+                                                    ? AppTheme.deadColor
+                                                    : AppTheme.metallicColor)),
+                                  ),
+                                ),
                               ),
                             ),
                           ]),
@@ -178,6 +227,7 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                 )
               ],
             )),
-        viewModelBuilder: () => QadhaMonthlyCalendarViewModel());
+        viewModelBuilder: () => QadhaMonthlyCalendarViewModel(
+            widget.selectionStart, widget.selectionEnd));
   }
 }

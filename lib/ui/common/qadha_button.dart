@@ -21,7 +21,6 @@ class QadhaButton extends StatefulWidget {
   State<QadhaButton> createState() => _QadhaButtonState();
 }
 
-// TODO : make stateless ?
 class _QadhaButtonState extends State<QadhaButton> {
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class _QadhaButtonState extends State<QadhaButton> {
     return Material(
       color: AppTheme.primaryColor,
       child: InkWell(
-          splashColor: AppTheme.deadColor,
+          splashColor: AppTheme.deadPrimaryColor.withOpacity(0.2),
           onTap: widget.onTap,
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),

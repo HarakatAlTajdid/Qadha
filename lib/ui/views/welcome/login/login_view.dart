@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 import 'package:qadha/ui/views/welcome/account_box_view.dart';
@@ -6,21 +8,16 @@ import 'package:stacked/stacked.dart';
 
 import 'login_viewmodel.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class LoginView extends ConsumerWidget {
+  LoginView({Key? key}) : super(key: key);
 
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
   final TextEditingController _codeController =
       TextEditingController(text: "33");
   final TextEditingController _numController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return ViewModelBuilder<LoginViewModel>.reactive(
@@ -45,7 +42,8 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (MediaQuery.of(context).viewInsets.bottom != 0)
-                  SizedBox(height: size.height / 100 < 10 ? 10 : size.height / 100),
+                  SizedBox(
+                      height: size.height / 100 < 10 ? 10 : size.height / 100),
                 Expanded(
                     flex: MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 3,
                     child: Column(
@@ -86,18 +84,17 @@ class _LoginViewState extends State<LoginView> {
                             children: [
                               const SizedBox(height: 5),
                               if (model.formHasError)
-                                      Column(
-                                        children: [
-                                          const SizedBox(height: 5),
-                                          Text(model.errorMessage,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: AppTheme.alertColor,
-                                                  fontSize: 14,
-                                                  fontFamily: "Inter Regular")),
-                                        ],
-                                      ),
-
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 5),
+                                    Text(model.errorMessage,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: AppTheme.alertColor,
+                                            fontSize: 14,
+                                            fontFamily: "Inter Regular")),
+                                  ],
+                                ),
                               const SizedBox(height: 2),
                               /*GestureDetector(
                                 onTap: () {
@@ -151,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
               ],
             )),
       ),
-      viewModelBuilder: () => LoginViewModel(),
+      viewModelBuilder: () => LoginViewModel(ref.read(authServiceProvider)),
     );
   }
 }

@@ -1,15 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/exceptions/authentication_exception.dart';
+
+final authServiceProvider = Provider((ref) => AuthenticationService());
 
 class AuthenticationService {
   Future<bool> loginUser(
       String phoneCode, String phoneNumber, String password) async {
-    //UserCredential credential;
 
     final fakeMail = "$phoneCode${phoneNumber.replaceAll(" ", "")}@gmail.com";
 
     try {
-      /*credential = */await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: fakeMail, password: password);
     } on FirebaseAuthException catch (error) {
       String message;
@@ -45,8 +47,6 @@ class AuthenticationService {
       throw AuthenticationException(error.code, message);
     }
 
-    //await UserDataManager().getData(credential.user?.uid);
-
     return true;
   }
 
@@ -64,7 +64,7 @@ class AuthenticationService {
     return true;
   }
 
-   Future<bool> doesUserExist(String phoneCode, String phoneNumber) async {
+  Future<bool> doesUserExist(String phoneCode, String phoneNumber) async {
     final fakeMail = "$phoneCode${phoneNumber.replaceAll(" ", "")}@gmail.com";
     final signInMethods =
         await FirebaseAuth.instance.fetchSignInMethodsForEmail(fakeMail);

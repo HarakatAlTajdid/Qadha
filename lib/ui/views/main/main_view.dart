@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:qadha/providers/stats_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
-class MainView extends StatefulWidget {
+class MainView extends ConsumerWidget {
   const MainView({Key? key}) : super(key: key);
 
-  @override
-  State<MainView> createState() => _MainViewState();
-}
-
-class _MainViewState extends State<MainView> {
   Widget _buildSign(IconData icon) {
     return Container(
         decoration: BoxDecoration(
@@ -23,7 +20,7 @@ class _MainViewState extends State<MainView> {
         ));
   }
 
-  Widget _buildSalatTile(String name) {
+  Widget _buildSalatTile(BuildContext context, String name, int remaining) {
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -33,9 +30,7 @@ class _MainViewState extends State<MainView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Opacity(
-                opacity: true ? 0.6 : 1,
-                child: _buildSign(Icons.remove)),
+              Opacity(opacity: true ? 0.6 : 1, child: _buildSign(Icons.remove)),
               Stack(alignment: Alignment.centerRight, children: [
                 SizedBox(
                   width: size.width / 1.75,
@@ -70,25 +65,28 @@ class _MainViewState extends State<MainView> {
             ],
           ),
         ),
-       FractionallySizedBox(
-                  widthFactor: 0.987,
-                  child: LinearPercentIndicator(
-                    animation: true,
-                    lineHeight: 2,
-                    animationDuration: 2000,
-                    percent: name.length * 0.07,
-                    trailing: Text("reste encore ${(407 / name.length).round()}  ",
-                        style: const TextStyle(fontFamily: "Inter Regular", fontSize: 12)),
-                    barRadius: const Radius.circular(6),
-                    backgroundColor: AppTheme.deadColor.withOpacity(0.65),
-                    progressColor: AppTheme.accentColor,
-                  )),
+        FractionallySizedBox(
+            widthFactor: 0.987,
+            child: LinearPercentIndicator(
+              animation: true,
+              lineHeight: 2,
+              animationDuration: 2000,
+              percent: name.length * 0.07,
+              trailing: Text("reste encore $remaining   ",
+                  style: const TextStyle(
+                      fontFamily: "Inter Regular", fontSize: 12)),
+              barRadius: const Radius.circular(6),
+              backgroundColor: AppTheme.deadColor.withOpacity(0.65),
+              progressColor: AppTheme.accentColor,
+            )),
       ],
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsState = ref.watch(statsProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Stack(
@@ -106,19 +104,18 @@ class _MainViewState extends State<MainView> {
                 width: 52.5,
               )),
               const SizedBox(height: 30),
-              const Text(
-                  "Combien de prières rattrapées aujourd'hui ?",
+              const Text("Combien de prières rattrapées aujourd'hui ?",
                   style:
                       TextStyle(fontSize: 14.5, fontFamily: "Inter Regular")),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildSalatTile("FAJR"),
-                    _buildSalatTile("DHOR"),
-                    _buildSalatTile("ASR"),
-                    _buildSalatTile("MAGHREB"),
-                    _buildSalatTile("ISHAA"),
+                    _buildSalatTile(context, "FAJR", statsState.remainingPrayers[0]),
+                    _buildSalatTile(context, "DHOR", statsState.remainingPrayers[1]),
+                    _buildSalatTile(context, "ASR", statsState.remainingPrayers[2]),
+                    _buildSalatTile(context, "MAGHREB", statsState.remainingPrayers[3]),
+                    _buildSalatTile(context, "ICHA", statsState.remainingPrayers[4]),
                   ],
                 ),
               ),
@@ -138,7 +135,8 @@ class _MainViewState extends State<MainView> {
                   )),
               const SizedBox(height: 12.5),
               const Text("Plus que 10 avant de débloquer une nouvelle sagesse",
-                  style: TextStyle(fontFamily: "Inter Regular", fontSize: 13.5)),
+                  style:
+                      TextStyle(fontFamily: "Inter Regular", fontSize: 13.5)),
               const SizedBox(height: 5)
             ],
           ),

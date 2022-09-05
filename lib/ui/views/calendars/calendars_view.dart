@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/providers/calendar_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/calendar/qadha_monthly_calendar.dart';
 
-import 'modals/add_calendar_modal.dart';
-import 'modals/add_calendar_viewmodel.dart';
+import 'modals/add_calendar/add_calendar_view.dart';
 
-class CalendarsView extends StatefulWidget {
-  const CalendarsView({Key? key}) : super(key: key);
+class CalendarsView extends ConsumerWidget {
+  CalendarsView({Key? key}) : super(key: key);
 
-  @override
-  State<CalendarsView> createState() => _CalendarsViewState();
-}
-
-class _CalendarsViewState extends State<CalendarsView> {
   bool isActionHovered = false;
 
-  void _showAddCalendarModal() async {
+  void _showAddCalendarModal(BuildContext context) async {
     await showModalBottomSheet(
         barrierColor: Colors.black54,
         context: context,
@@ -25,14 +19,16 @@ class _CalendarsViewState extends State<CalendarsView> {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         backgroundColor: AppTheme.primaryColor,
-        builder: (ctx) => ChangeNotifierProvider(
+        builder: (ctx) => const AddCalendarModal() /*ChangeNotifierProvider(
             create: (_) => AddCalendarViewModel(),
-            child: const AddCalendarModal()));
+            child: const AddCalendarModal())*/);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+
+    final calendars = ref.watch(calendarProvider);
 
     return SingleChildScrollView(
       child: Padding(
@@ -61,23 +57,17 @@ class _CalendarsViewState extends State<CalendarsView> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _showAddCalendarModal();
+                      _showAddCalendarModal(context);
                     },
                     onTapDown: (e) {
-                      setState(() {
                         isActionHovered = true;
-                      });
                     },
                     onTapUp: (e) {
-                      setState(() {
                         isActionHovered = false;
-                      });
                       Feedback.forTap(context);
                     },
                     onTapCancel: () {
-                      setState(() {
                         isActionHovered = false;
-                      });
                     },
                     child: Container(
                       color: AppTheme.purpleColor,
@@ -103,7 +93,7 @@ class _CalendarsViewState extends State<CalendarsView> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  if (context.watch<CalendarProvider>().calendars.isEmpty)
+                  if (calendars.isEmpty)
                     Column(
                       children: [
                         const SizedBox(height: 15),
@@ -130,9 +120,7 @@ class _CalendarsViewState extends State<CalendarsView> {
                       ],
                     ),
                   Column(
-                      children: context
-                          .watch<CalendarProvider>()
-                          .calendars
+                      children: calendars
                           .map((calendar) => Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.5),
@@ -143,8 +131,7 @@ class _CalendarsViewState extends State<CalendarsView> {
                                         calendar.start, calendar.end,
                                         key: UniqueKey(),
                                         allowDeletion: true, onDeletion: () {
-                                      context
-                                          .read<CalendarProvider>()
+                                      ref.read(calendarProvider.notifier)
                                           .deleteCalendar(calendar);
                                     })),
                               ))

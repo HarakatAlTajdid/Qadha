@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 import 'package:stacked/stacked.dart';
 
 import 'verification_viewmodel.dart';
 
-class VerificationView extends StatefulWidget {
-  const VerificationView(
+class VerificationView extends ConsumerWidget {
+  VerificationView(
       this.phoneCode, this.phoneNumber, this.password, this.verificationId,
       {Key? key})
       : super(key: key);
@@ -17,16 +19,10 @@ class VerificationView extends StatefulWidget {
   final String password;
   final String verificationId;
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _VerificationViewState createState() => _VerificationViewState();
-}
-
-class _VerificationViewState extends State<VerificationView> {
   final TextEditingController _textController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ViewModelBuilder<VerificationViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         backgroundColor: AppTheme.primaryColor,
@@ -41,11 +37,12 @@ class _VerificationViewState extends State<VerificationView> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
                       child: Text(
-                          "Entre le code envoyé par SMS\nau +${widget.phoneCode}${widget.phoneNumber}",
+                          "Entre le code envoyé par SMS\nau +$phoneCode$phoneNumber",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "Inter Regular",
-                              color: AppTheme.secundaryColor, fontSize: 22)),
+                              fontFamily: "Inter Regular",
+                              color: AppTheme.secundaryColor,
+                              fontSize: 22)),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -94,8 +91,12 @@ class _VerificationViewState extends State<VerificationView> {
           ],
         ),
       ),
-      viewModelBuilder: () => VerificationViewModel(widget.phoneCode,
-          widget.phoneNumber, widget.password, widget.verificationId),
+      viewModelBuilder: () => VerificationViewModel(
+          ref.read(authServiceProvider),
+          phoneCode,
+          phoneNumber,
+          password,
+          verificationId),
     );
   }
 }

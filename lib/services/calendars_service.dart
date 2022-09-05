@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/calendar_model.dart';
 
-class CalendarsService {
+final calendarServiceProvider = Provider((ref) => CalendarService());
+
+class CalendarService {
   Future<List<CalendarModel>> loadCalendars() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
 
@@ -25,7 +28,8 @@ class CalendarsService {
     final userDataRef =
         FirebaseFirestore.instance.collection('userdata').doc(uid);
 
-    final docRef = await userDataRef.collection("calendars").add(calendar.toJson());
+    final docRef =
+        await userDataRef.collection("calendars").add(calendar.toJson());
     return docRef.id;
   }
 

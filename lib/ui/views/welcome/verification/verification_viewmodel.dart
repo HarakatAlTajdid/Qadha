@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:qadha/models/exceptions/authentication_exception.dart';
 import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
-import 'package:qadha/ui/app/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class VerificationViewModel extends BaseViewModel {
-  final AuthenticationService _authenticationService = locator<AuthenticationService>();
-  
+  final AuthenticationService _authService;
+
   bool isWorking = false;
   final String phoneCode;
   final String phoneNumber;
@@ -19,7 +18,7 @@ class VerificationViewModel extends BaseViewModel {
   bool formHasError = false;
   String errorMessage = "";
 
-  VerificationViewModel(this.phoneCode, this.phoneNumber, this.password, this.verificationId);
+  VerificationViewModel(this._authService, this.phoneCode, this.phoneNumber, this.password, this.verificationId);
 
   Future<void> confirmCode(BuildContext context, String code) async {
     isWorking = true;
@@ -49,7 +48,7 @@ class VerificationViewModel extends BaseViewModel {
     }
 
     try {
-      await _authenticationService.registerUser(phoneCode, phoneNumber, password);
+      await _authService.registerUser(phoneCode, phoneNumber, password);
     }
     on AuthenticationException catch (error) {
       errorMessage = error.message;

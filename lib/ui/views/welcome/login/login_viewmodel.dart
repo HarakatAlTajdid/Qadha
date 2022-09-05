@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:qadha/models/exceptions/authentication_exception.dart';
 import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
-import 'package:qadha/ui/app/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginViewModel extends BaseViewModel {
-  final AuthenticationService _authenticationService = locator<AuthenticationService>();
-
+  final AuthenticationService _authService;
+  
   bool isWorking = false;
   bool formHasError = false;
   String errorMessage = "";
+
+  LoginViewModel(this._authService);
 
   void navigateToStart(BuildContext context) {
     AutoRouter.of(context).pop();
@@ -24,7 +25,7 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
 
     try {
-      await _authenticationService.loginUser(phoneCode, phoneNumber, password);
+      await _authService.loginUser(phoneCode, phoneNumber, password);
     } on AuthenticationException catch(e) {
       formHasError = true;
       errorMessage = e.message;

@@ -1,38 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/calendar_model.dart';
 import 'package:qadha/services/calendars_service.dart';
-import 'package:qadha/ui/app/locator.dart';
 
-class CalendarProvider with ChangeNotifier {
-  final CalendarsService _service = locator<CalendarsService>();
-  
-  List<CalendarModel> _calendars = [];
-  List<CalendarModel> get calendars => _calendars;
+final calendarProvider =
+    StateNotifierProvider<CalendarNotifier, List<CalendarModel>>((ref) {
+  return CalendarNotifier(ref.read(calendarServiceProvider));
+});
 
-  CalendarProvider() {
+class CalendarNotifier extends StateNotifier<List<CalendarModel>> {
+  final CalendarService _calendarService;
+
+  CalendarNotifier(this._calendarService) : super([]) {
     _loadCalendars();
   }
 
   void _loadCalendars() async {
-    _calendars = await _service.loadCalendars();
-    notifyListeners();
+    state = await _calendarService.loadCalendars();
   }
 
   Future<void> addCalendar(CalendarModel calendar) async {
-    final id = await _service.addCalendar(calendar);
-    _calendars.add(CalendarModel(calendar.start, calendar.end, id: id));
-    notifyListeners();
+    final id = await _calendarService.addCalendar(calendar);
+    state = List.from(state)..add(CalendarModel(calendar.start, calendar.end, id: id));
   }
 
   void deleteCalendar(CalendarModel calendar) {
-    _service.deleteCalendar(calendar);
-
-    for (int i = 0; i < _calendars.length; i++) {
-      if (_calendars[i].id == calendar.id) {
-        _calendars.removeAt(i);
-        break;
-      }
-    }
-    notifyListeners();
+    _calendarService.deleteCalendar(calendar);
+    state = List.from(state)..removeWhere((element) => element.id == calendar.id);
   }
-} 
+}

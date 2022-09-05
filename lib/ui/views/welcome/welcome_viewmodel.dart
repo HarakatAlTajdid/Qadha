@@ -3,16 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
-import 'package:qadha/ui/app/locator.dart';
 import 'package:stacked/stacked.dart';
 
 class WelcomeViewModel extends BaseViewModel {
-  final AuthenticationService _authenticationService =
-      locator<AuthenticationService>();
-
+  final AuthenticationService _authService;
+  
   bool isRegistering = false;
   bool formHasError = false;
   String errorMessage = "test";
+
+  WelcomeViewModel(this._authService);
 
   void navigateToLoginPage(BuildContext context) {
     AutoRouter.of(context).push(const LoginRoute());
@@ -49,7 +49,7 @@ class WelcomeViewModel extends BaseViewModel {
     notifyListeners();
 
     final userExists =
-        await _authenticationService.doesUserExist(phoneCode, phoneNumber);
+        await _authService.doesUserExist(phoneCode, phoneNumber);
 
     if (userExists) {
       formHasError = true;

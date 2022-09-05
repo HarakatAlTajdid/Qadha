@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qadha/services/authentication_service.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 import 'package:stacked/stacked.dart';
@@ -6,28 +8,23 @@ import 'package:stacked/stacked.dart';
 import 'account_box_view.dart';
 import 'welcome_viewmodel.dart';
 
-class WelcomeView extends StatefulWidget {
-  const WelcomeView({this.checkSession = true, Key? key}) : super(key: key);
+class WelcomeView extends ConsumerWidget {
+  WelcomeView({this.checkSession = true, Key? key}) : super(key: key);
 
   final bool checkSession;
 
-  @override
-  State<WelcomeView> createState() => _WelcomeViewState();
-}
-
-class _WelcomeViewState extends State<WelcomeView> {
-  final TextEditingController _codeController =
+final TextEditingController _codeController =
       TextEditingController(text: "33");
   final TextEditingController _numController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return ViewModelBuilder<WelcomeViewModel>.reactive(
         builder: (context, model, child) => FutureBuilder(
-              future: model.checkSession(context, widget.checkSession),
+              future: model.checkSession(context, checkSession),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 return Material(
                   child: Container(
@@ -126,6 +123,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                 );
               },
             ),
-        viewModelBuilder: () => WelcomeViewModel());
-  }
+        viewModelBuilder: () => WelcomeViewModel(ref.read(authServiceProvider)));
+  }  
 }

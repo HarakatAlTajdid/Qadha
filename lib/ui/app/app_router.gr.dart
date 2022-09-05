@@ -48,7 +48,7 @@ class AppRouter extends _i10.RootStackRouter {
     },
     LoginRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.LoginView());
+          routeData: routeData, child: _i3.LoginView());
     },
     HomeRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
@@ -60,7 +60,7 @@ class AppRouter extends _i10.RootStackRouter {
     },
     CalendarsRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i6.CalendarsView());
+          routeData: routeData, child: _i6.CalendarsView());
     },
     RewardsRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(

@@ -30,6 +30,24 @@ class CalendarService {
 
     final docRef =
         await userDataRef.collection("calendars").add(calendar.toJson());
+
+    // Accordingly increment remaining prayers
+    final statsDocRef = userDataRef.collection("stats");
+    final statsSnapshot = await statsDocRef.get();
+
+    for (final prayer in statsSnapshot.docs) {
+      final data = prayer.data();
+
+      int remaining = 0;
+      if (data.containsKey("remaining")) {
+        remaining = data["remaining"] as int;
+      }
+
+      await statsDocRef.doc(prayer.id).set(
+          {"remaining": remaining + calendar.totalDays()},
+          SetOptions(merge: true));
+    }
+
     return docRef.id;
   }
 
@@ -45,6 +63,25 @@ class CalendarService {
         .collection("calendars")
         .doc(calendar.id)
         .delete();
+
+    // Accordingly decrement remaining prayers
+    final userDataRef =
+        FirebaseFirestore.instance.collection('userdata').doc(uid);
+    final statsDocRef = userDataRef.collection("stats");
+    final statsSnapshot = await statsDocRef.get();
+
+    for (final prayer in statsSnapshot.docs) {
+      final data = prayer.data();
+
+      if (data.containsKey("remaining")) {
+        final remaining = data["remaining"] as int;
+        await statsDocRef.doc(prayer.id).set({
+          "remaining": remaining - calendar.totalDays() < 0
+              ? 0
+              : remaining - calendar.totalDays()
+        }, SetOptions(merge: true));
+      }
+    }
 
     return true;
   }

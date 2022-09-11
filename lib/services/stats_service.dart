@@ -21,12 +21,62 @@ class StatsService {
 
       if (prayers != null) {
         for (final rawDate in prayers.keys) {
-          result.add(PrayerActivityModel(prayerName,
-              parseDate(rawDate), (prayers[rawDate]! as int)));
+          result.add(PrayerActivityModel(
+              prayerName, parseDate(rawDate), (prayers[rawDate]! as int)));
         }
       }
     }
 
     return result;
+  }
+
+  Future<void> incrementActivity(
+      String type, DateTime date, int increment) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final userDataRef =
+        FirebaseFirestore.instance.collection("userdata").doc(uid);
+    final statsDocRef = userDataRef.collection("stats").doc(type);
+    final statsSnapshot = await statsDocRef.get();
+
+    if (statsSnapshot.data()!.containsKey("activities")) {
+      final activities =
+          statsSnapshot.data()!["activities"] as Map<String, dynamic>;
+      if (activities.containsKey(formatDate(date))) {
+        activities[formatDate(date)] += increment;
+      } else {
+        activities[formatDate(date)] = 1;
+      }
+
+      statsDocRef.set({
+        "activities": activities,
+      }, SetOptions(merge: true));
+    } else {
+      statsDocRef.set({
+        "activities": {formatDate(date): 1}
+      }, SetOptions(merge: true));
+    }
+
+    if (statsSnapshot.data()!.containsKey("remaining")) {
+      var remaining = statsSnapshot.data()!["remaining"] as int;
+      remaining -= increment;
+
+      statsDocRef.set({"remaining": remaining}, SetOptions(merge: true));
+    }
+  }
+
+  Future<int> getRemainingPrayers(String type) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    final userDataRef =
+        FirebaseFirestore.instance.collection("userdata").doc(uid);
+    final statsDocRef = userDataRef.collection("stats").doc(type);
+    final statsSnapshot = await statsDocRef.get();
+
+    if (statsSnapshot.data()!.containsKey("remaining")) {
+      return statsSnapshot.data()!["remaining"] as int;
+    } else {
+      return 0;
+    }
   }
 }

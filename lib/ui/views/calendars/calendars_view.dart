@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/providers/calendar_provider.dart';
+import 'package:qadha/providers/remaining_prayers_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/calendar/qadha_monthly_calendar.dart';
 
@@ -19,9 +20,11 @@ class CalendarsView extends ConsumerWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         backgroundColor: AppTheme.primaryColor,
-        builder: (ctx) => const AddCalendarModal() /*ChangeNotifierProvider(
+        builder: (ctx) =>
+            const AddCalendarModal() /*ChangeNotifierProvider(
             create: (_) => AddCalendarViewModel(),
-            child: const AddCalendarModal())*/);
+            child: const AddCalendarModal())*/
+        );
   }
 
   @override
@@ -60,14 +63,14 @@ class CalendarsView extends ConsumerWidget {
                       _showAddCalendarModal(context);
                     },
                     onTapDown: (e) {
-                        isActionHovered = true;
+                      isActionHovered = true;
                     },
                     onTapUp: (e) {
-                        isActionHovered = false;
+                      isActionHovered = false;
                       Feedback.forTap(context);
                     },
                     onTapCancel: () {
-                        isActionHovered = false;
+                      isActionHovered = false;
                     },
                     child: Container(
                       color: AppTheme.purpleColor,
@@ -131,8 +134,16 @@ class CalendarsView extends ConsumerWidget {
                                         calendar.start, calendar.end,
                                         key: UniqueKey(),
                                         allowDeletion: true, onDeletion: () {
-                                      ref.read(calendarProvider.notifier)
+                                      ref
+                                          .read(calendarProvider.notifier)
                                           .deleteCalendar(calendar);
+
+                                      final days = calendar.totalDays();
+                                      ref
+                                          .read(
+                                              remainingPrayersProvider.notifier)
+                                          .incrementWithCalendar(days,
+                                              add: false);
                                     })),
                               ))
                           .toList()),

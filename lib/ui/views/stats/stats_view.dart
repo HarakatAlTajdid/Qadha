@@ -1,17 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:qadha/providers/stats_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
-class StatsView extends StatefulWidget {
+class StatsView extends ConsumerWidget {
   const StatsView({Key? key}) : super(key: key);
 
-  @override
-  State<StatsView> createState() => _StatsViewState();
-}
-
-class _StatsViewState extends State<StatsView> {
-  LineChartData _buildYearlyData() {
+  LineChartData _buildYearlyData(WidgetRef ref) {
     return LineChartData(
       lineTouchData: LineTouchData(
         enabled: false,
@@ -44,19 +41,33 @@ class _StatsViewState extends State<StatsView> {
           sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (_, meta) {
+                final date = DateTime(DateTime.now().year,
+                    DateTime.now().month - 7 + int.parse(meta.formattedValue));
+
                 final months = [
                   "Jan",
-                  "Fev",
-                  "Mar",
+                  "Fév",
+                  "Mars",
                   "Avr",
                   "Mai",
                   "Juin",
-                  "Juil"
+                  "Jui",
+                  "Août",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Déc"
                 ];
 
                 return Padding(
-                    padding: const EdgeInsets.only(top: 9),
-                    child: Text(months[int.parse(meta.formattedValue)]));
+                    padding: const EdgeInsets.only(top: 7),
+                    child: Text(months[date.month - 1],
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: "Inter Regular",
+                            color: date.year < DateTime.now().year
+                                ? Colors.black54
+                                : Colors.black)));
               }),
         ),
         leftTitles: AxisTitles(
@@ -75,15 +86,9 @@ class _StatsViewState extends State<StatsView> {
       ),
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 40),
-            FlSpot(1, 55),
-            FlSpot(2, 47),
-            FlSpot(3, 65),
-            FlSpot(4, 40),
-            FlSpot(5, 55),
-            FlSpot(6, 90),
-          ],
+          spots: ref
+              .watch(statsProvider.notifier)
+              .generateYearlyStats(ref.watch(statsProvider).activities),
           color: AppTheme.secundaryColor,
           barWidth: 1.35,
           dotData: FlDotData(
@@ -95,13 +100,13 @@ class _StatsViewState extends State<StatsView> {
                     strokeWidth: 0);
               }),
           belowBarData: BarAreaData(
-              show: true, color: AppTheme.secundaryColor.withOpacity(0.06)),
+              show: true, color: AppTheme.secundaryColor.withOpacity(0.1)),
         ),
       ],
     );
   }
 
-  LineChartData _buildMonthlyData() {
+  LineChartData _buildMonthlyData(WidgetRef ref) {
     return LineChartData(
       lineTouchData: LineTouchData(
         enabled: false,
@@ -133,11 +138,14 @@ class _StatsViewState extends State<StatsView> {
           sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (_, meta) {
+                final day = DateTime.now().subtract(
+                    Duration(days: 30 - int.parse(meta.formattedValue)));
+
                 return Padding(
                     padding: const EdgeInsets.only(top: 9),
-                    child: Text(meta.formattedValue,
+                    child: Text(day.day.toString(),
                         style: TextStyle(
-                            color: int.parse(meta.formattedValue) < 15
+                            color: day.month < DateTime.now().month
                                 ? Colors.black54
                                 : Colors.black)));
               }),
@@ -158,37 +166,9 @@ class _StatsViewState extends State<StatsView> {
       ),
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(1, 5),
-            FlSpot(2, 0),
-            FlSpot(3, 0),
-            FlSpot(4, 0),
-            FlSpot(5, 1),
-            FlSpot(6, 2),
-            FlSpot(7, 6),
-            FlSpot(8, 1),
-            FlSpot(9, 0),
-            FlSpot(10, 0),
-            FlSpot(11, 0),
-            FlSpot(12, 0),
-            FlSpot(13, 0),
-            FlSpot(14, 0),
-            FlSpot(15, 0),
-            FlSpot(16, 0),
-            FlSpot(17, 8),
-            FlSpot(18, 0),
-            FlSpot(19, 1),
-            FlSpot(20, 2),
-            FlSpot(21, 3),
-            FlSpot(22, 5),
-            FlSpot(23, 4),
-            FlSpot(24, 6),
-            FlSpot(25, 7),
-            FlSpot(26, 8),
-            FlSpot(27, 9),
-            FlSpot(28, 1),
-            FlSpot(29, 2),
-          ],
+          spots: ref
+              .watch(statsProvider.notifier)
+              .generateMonthlyStats(ref.watch(statsProvider).activities),
           color: AppTheme.secundaryColor,
           barWidth: 1.35,
           dotData: FlDotData(
@@ -206,7 +186,7 @@ class _StatsViewState extends State<StatsView> {
     );
   }
 
-  Widget _buildYearlyProgress() {
+  Widget _buildYearlyProgress(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -232,7 +212,7 @@ class _StatsViewState extends State<StatsView> {
                     const Text("Performances annuelles",
                         style: TextStyle(
                             fontFamily: "Inter Regular", fontSize: 14.5)),
-                    Text("+10% (1 mois)",
+                    Text("en 7 mois",
                         style: TextStyle(
                             fontFamily: "Inter SemiBold",
                             fontSize: 13,
@@ -246,7 +226,7 @@ class _StatsViewState extends State<StatsView> {
             SizedBox(
                 height: size.height / 3.4,
                 width: size.width / 1.4,
-                child: LineChart(_buildYearlyData())),
+                child: LineChart(_buildYearlyData(ref))),
             const SizedBox(height: 27.5),
             FractionallySizedBox(
               widthFactor: 0.85,
@@ -294,7 +274,7 @@ class _StatsViewState extends State<StatsView> {
     );
   }
 
-  Widget _buildMonthlyProgress() {
+  Widget _buildMonthlyProgress(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return Container(
@@ -320,7 +300,7 @@ class _StatsViewState extends State<StatsView> {
                     const Text("Performances mensuelles",
                         style: TextStyle(
                             fontFamily: "Inter Regular", fontSize: 14.5)),
-                    Text("Ce mois-ci",
+                    Text("en 30 jours",
                         style: TextStyle(
                             fontFamily: "Inter SemiBold",
                             fontSize: 13,
@@ -334,7 +314,7 @@ class _StatsViewState extends State<StatsView> {
             SizedBox(
                 height: size.height / 3.4,
                 width: size.width / 1.4,
-                child: LineChart(_buildMonthlyData())),
+                child: LineChart(_buildMonthlyData(ref))),
             const SizedBox(height: 25),
           ],
         ),
@@ -343,7 +323,7 @@ class _StatsViewState extends State<StatsView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -355,9 +335,9 @@ class _StatsViewState extends State<StatsView> {
               width: 52.5,
             )),
             const SizedBox(height: 22.5),
-            _buildYearlyProgress(),
+            _buildYearlyProgress(context, ref),
             const SizedBox(height: 25),
-            _buildMonthlyProgress(),
+            _buildMonthlyProgress(context, ref),
             const SizedBox(height: 100)
           ],
         ),

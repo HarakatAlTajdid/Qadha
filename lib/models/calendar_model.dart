@@ -22,4 +22,8 @@ class CalendarModel {
         (start.isAfter(other.start) && start.isBefore(other.end)) ||
         (end.isAfter(other.start) && end.isBefore(other.end));
   }
+
+  int totalDays() {
+    return end.difference(start).inDays + 1;
+  }
 }

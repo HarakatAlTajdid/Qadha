@@ -57,8 +57,8 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                                       child: Row(
                                         children: [
                                           if (model.selectionEnd != null &&
-                                              model.currentFrame.month >
-                                                  model.selectionEnd!.month)
+                                              model.currentFrame.year > model.selectionEnd!.year || (model.currentFrame.year == model.selectionEnd!.year && model.currentFrame.month >
+                                                  model.selectionEnd!.month))
                                             Container(
                                                 width: 7.5,
                                                 height: 7.5,
@@ -94,8 +94,8 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                                               size: 15),
                                           const SizedBox(width: 5),
                                           if (model.selectionStart != null &&
-                                              model.currentFrame.month <
-                                                  model.selectionStart!.month)
+                                              model.currentFrame.year < model.selectionEnd!.year || (model.currentFrame.year == model.selectionEnd!.year && model.currentFrame.month <
+                                                  model.selectionEnd!.month))
                                             Container(
                                                 width: 7.5,
                                                 height: 7.5,

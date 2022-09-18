@@ -81,7 +81,7 @@ class _AccountBoxViewState extends State<AccountBoxView> {
             Divider(thickness: 2, color: AppTheme.deadColor.withOpacity(0.45)),
             const SizedBox(height: 10),
             FractionallySizedBox(
-              widthFactor: 0.9,
+              widthFactor: 0.92,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

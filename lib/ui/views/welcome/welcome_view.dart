@@ -104,8 +104,8 @@ final TextEditingController _codeController =
                                               margin:
                                                   const EdgeInsets.only(top: 15),
                                               child: QadhaButton(
-                                                  text: "c'est parti !",
-                                                  fontSize: 17,
+                                                  text: "C'est parti !",
+                                                  fontSize: 18,
                                                   isLoading: model.isRegistering,
                                                   onTap: () async {
                                                     await model.registerUser(

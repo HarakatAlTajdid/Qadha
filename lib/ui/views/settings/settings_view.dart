@@ -1,5 +1,9 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qadha/ui/app/app_router.gr.dart';
+import 'package:qadha/ui/common/qadha_button.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -54,14 +58,28 @@ class _SettingsViewState extends State<SettingsView> {
         SizedBox(
           height: size.height / 2.5,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildTile("bell", "Notifications"),
-              _buildTile("u", "Mentions légales et CGU"),
-              _buildTile("cog", "Mises à jour"),
-              _buildTile("about", "À propos de Qadha")],
-          ),
-        )
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildTile("bell", "Notifications"),
+                _buildTile("u", "Mentions légales"),
+                _buildTile("cog", "Mises à jour"),
+                _buildTile("about", "À propos de Qadha"),
+              ]),
+        ),
+        const Spacer(),
+        FractionallySizedBox(
+            widthFactor: 0.9,
+            child: QadhaButton(
+                text: "Se déconnecter",
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
+                  // ignore: use_build_context_synchronously
+                  AutoRouter.of(context)
+                      .replace(WelcomeRoute(checkSession: false));
+                })),
+        const SizedBox(height: 30)
       ]),
     );
   }

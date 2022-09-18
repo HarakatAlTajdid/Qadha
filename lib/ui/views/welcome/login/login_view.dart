@@ -95,46 +95,12 @@ class LoginView extends ConsumerWidget {
                                             fontFamily: "Inter Regular")),
                                   ],
                                 ),
-                              const SizedBox(height: 2),
-                              /*GestureDetector(
-                                onTap: () {
-                                  model.setStayConnected(!model.stayConnected);
-                                },
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 24,
-                                      child: Checkbox(
-                                        value: model.stayConnected,
-                                        checkColor: AppTheme.primaryColor,
-                                        fillColor:
-                                            MaterialStateColor.resolveWith(
-                                                (states) =>
-                                                    AppTheme.secundaryColor),
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5))),
-                                        onChanged: (bool? value) {
-                                          model.setStayConnected(value!);
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(width: 7.5),
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 2),
-                                        child: Text("Rester connecté",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontFamily: "Inter SemiBold",
-                                                fontSize: 15)))
-                                  ],
-                                ),
-                              ),*/
+                              const SizedBox(height: 20),
                               SizedBox(
                                   height: 53.5,
                                   child: QadhaButton(
-                                      text: "se connecter",
-                                      fontSize: 17,
+                                      text: "Connexion",
+                                      fontSize: 18.5,
                                       isLoading: model.isWorking,
                                       onTap: () => model.loginWithCredentials(
                                           context,

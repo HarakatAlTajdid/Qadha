@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qadha/models/calendar_model.dart';
 import 'package:qadha/services/stats_service.dart';
 
 final remainingPrayersProvider =

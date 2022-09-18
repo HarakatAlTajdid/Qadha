@@ -15,7 +15,7 @@ class WelcomeViewModel extends BaseViewModel {
   WelcomeViewModel(this._authService);
 
   void navigateToLoginPage(BuildContext context) {
-    AutoRouter.of(context).push(const LoginRoute());
+    AutoRouter.of(context).push(LoginRoute());
   }
 
   Future<bool> checkSession(BuildContext context, bool check) async {

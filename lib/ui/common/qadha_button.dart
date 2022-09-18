@@ -6,6 +6,7 @@ class QadhaButton extends StatefulWidget {
       {Key? key,
       this.text = "QadhaButton",
       this.fontSize = 18,
+      this.radius = 5,
       this.isLoading = false,
       this.isEnabled = true,
       required this.onTap})
@@ -13,6 +14,7 @@ class QadhaButton extends StatefulWidget {
 
   final String text;
   final double fontSize;
+  final double radius;
   final bool isLoading;
   final bool isEnabled;
   final Function() onTap;
@@ -24,20 +26,18 @@ class QadhaButton extends StatefulWidget {
 class _QadhaButtonState extends State<QadhaButton> {
   @override
   Widget build(BuildContext context) {
-    double radius = 5;
-
     return Material(
-      color: AppTheme.primaryColor,
+      color: Colors.transparent,
       child: InkWell(
           splashColor: AppTheme.deadPrimaryColor.withOpacity(0.2),
-          onTap: widget.onTap,
+          onTap: widget.isLoading ? null : widget.onTap,
           customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: BorderRadius.circular(widget.radius),
           ),
           child: Ink(
             decoration: BoxDecoration(
               color: AppTheme.secundaryColor,
-              borderRadius: BorderRadius.all(Radius.circular(radius)),
+              borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
             ),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 5),

@@ -56,12 +56,12 @@ class _HomeViewState extends State<HomeView> {
         lazyLoad: false,
         animationDuration: const Duration(seconds: 0),
         resizeToAvoidBottomInset: false,
-        routes: const [
-          MainRoute(),
+        routes: [
+          const MainRoute(),
           CalendarsRoute(),
-          RewardsRoute(),
-          StatsRoute(),
-          SettingsRoute()
+          const AchievementsRoute(),
+          const StatsRoute(),
+          const SettingsRoute()
         ],
         appBarBuilder: (_, tabsRouter) => AppBar(
               backgroundColor: AppTheme.primaryColor,
@@ -79,11 +79,15 @@ class _HomeViewState extends State<HomeView> {
                     color: AppTheme.deadColor,
                     height: 0.65,
                   )),
-              leadingWidth: 41.5,
+              leadingWidth: 44,
               leading: Padding(
                   padding: const EdgeInsets.only(left: 17.5),
-                  child: SvgPicture.asset("assets/images/icons/search.svg",
-                      fit: BoxFit.contain)),
+                  child: Image.asset(
+                    "assets/images/qadha_blue.png",
+                    fit: BoxFit.fitWidth,
+                    colorBlendMode: BlendMode.srcIn,
+                    color: Colors.grey
+                  )),
               actions: [
                 SizedBox(
                   width: 70,
@@ -104,6 +108,7 @@ class _HomeViewState extends State<HomeView> {
             ),
         bottomNavigationBuilder: (_, tabsRouter) {
           return QadhaNavbar(
+            key: UniqueKey(),
               initialIndex: tabsRouter.activeIndex,
               onSelectionChanged: (index) {
                 tabsRouter.setActiveIndex(index);

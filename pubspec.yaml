@@ -33,6 +33,7 @@ dependencies:
   fl_chart: ^0.55.1
   cloud_firestore: ^3.4.6
   flutter_riverpod: ^1.0.4
+  blur: ^3.1.0
 
 dev_dependencies:
   flutter_test:

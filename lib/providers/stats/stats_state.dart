@@ -1,4 +1,5 @@
-import '../models/prayer_activity_model.dart';
+
+import 'package:qadha/models/prayer_activity_model.dart';
 
 class StatsState {
   final List<PrayerActivityModel> activities;

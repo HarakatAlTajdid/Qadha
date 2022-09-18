@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/calendar_model.dart';
 import 'package:qadha/providers/calendar_provider.dart';
-import 'package:qadha/providers/remaining_prayers_provider.dart';
-import 'package:qadha/providers/stats_provider.dart';
 import 'package:qadha/ui/views/calendars/modals/add_calendar/state/add_calendar_state.dart';
 
 final addCalendarProvider =

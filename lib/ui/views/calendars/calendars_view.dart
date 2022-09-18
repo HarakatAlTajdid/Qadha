@@ -7,6 +7,7 @@ import 'package:qadha/ui/common/calendar/qadha_monthly_calendar.dart';
 
 import 'modals/add_calendar/add_calendar_view.dart';
 
+// ignore: must_be_immutable
 class CalendarsView extends ConsumerWidget {
   CalendarsView({Key? key}) : super(key: key);
 
@@ -20,11 +21,7 @@ class CalendarsView extends ConsumerWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         backgroundColor: AppTheme.primaryColor,
-        builder: (ctx) =>
-            const AddCalendarModal() /*ChangeNotifierProvider(
-            create: (_) => AddCalendarViewModel(),
-            child: const AddCalendarModal())*/
-        );
+        builder: (ctx) => const AddCalendarModal());
   }
 
   @override
@@ -90,7 +87,7 @@ class CalendarsView extends ConsumerWidget {
                                   color: isActionHovered
                                       ? AppTheme.primaryColor
                                       : Colors.black,
-                                  fontSize: 15))
+                                  fontSize: 17))
                         ],
                       ),
                     ),
@@ -111,7 +108,7 @@ class CalendarsView extends ConsumerWidget {
                               FractionallySizedBox(
                                   widthFactor: 0.8,
                                   child: Text(
-                                      "Pour permettre à l'application de calculer les prières à rattraper, ajoutez des calendriers liés aux différentes périodes pendant lesquelles vous estimez ne pas avoir prié.",
+                                      "Pour permettre à Qadha de calculer les prières à rattraper, ajoutez des calendriers liés aux différentes périodes pendant lesquelles vous estimez ne pas avoir prié.",
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                           fontFamily: "Inter Regular",
@@ -127,9 +124,17 @@ class CalendarsView extends ConsumerWidget {
                           .map((calendar) => Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.5),
-                                child: SizedBox(
+                                child: Container(
                                     width: size.width / 1.2,
                                     height: size.height / 2.8,
+                                    decoration: const BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        spreadRadius: 2,
+                                        blurRadius: 20,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ]),
                                     child: QadhaMonthlyCalendar(
                                         calendar.start, calendar.end,
                                         key: UniqueKey(),

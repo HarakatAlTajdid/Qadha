@@ -15,9 +15,9 @@ import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:flutter/material.dart' as _i11;
 
 import '../../main.dart' as _i4;
+import '../views/achievements/achievements_view.dart' as _i7;
 import '../views/calendars/calendars_view.dart' as _i6;
 import '../views/main/main_view.dart' as _i5;
-import '../views/rewards/rewards_view.dart' as _i7;
 import '../views/settings/settings_view.dart' as _i9;
 import '../views/stats/stats_view.dart' as _i8;
 import '../views/welcome/login/login_view.dart' as _i3;
@@ -47,8 +47,10 @@ class AppRouter extends _i10.RootStackRouter {
               key: args.key));
     },
     LoginRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginRouteArgs>(
+          orElse: () => const LoginRouteArgs());
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i3.LoginView());
+          routeData: routeData, child: _i3.LoginView(key: args.key));
     },
     HomeRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
@@ -59,12 +61,14 @@ class AppRouter extends _i10.RootStackRouter {
           routeData: routeData, child: const _i5.MainView());
     },
     CalendarsRoute.name: (routeData) {
+      final args = routeData.argsAs<CalendarsRouteArgs>(
+          orElse: () => const CalendarsRouteArgs());
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i6.CalendarsView());
+          routeData: routeData, child: _i6.CalendarsView(key: args.key));
     },
-    RewardsRoute.name: (routeData) {
+    AchievementsRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.RewardsView());
+          routeData: routeData, child: const _i7.AchievementsView());
     },
     StatsRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
@@ -86,8 +90,8 @@ class AppRouter extends _i10.RootStackRouter {
               path: 'main-view', parent: HomeRoute.name),
           _i10.RouteConfig(CalendarsRoute.name,
               path: 'calendars-view', parent: HomeRoute.name),
-          _i10.RouteConfig(RewardsRoute.name,
-              path: 'rewards-view', parent: HomeRoute.name),
+          _i10.RouteConfig(AchievementsRoute.name,
+              path: 'achievements-view', parent: HomeRoute.name),
           _i10.RouteConfig(StatsRoute.name,
               path: 'stats-view', parent: HomeRoute.name),
           _i10.RouteConfig(SettingsRoute.name,
@@ -167,10 +171,23 @@ class VerificationRouteArgs {
 
 /// generated route for
 /// [_i3.LoginView]
-class LoginRoute extends _i10.PageRouteInfo<void> {
-  const LoginRoute() : super(LoginRoute.name, path: '/login-view');
+class LoginRoute extends _i10.PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({_i11.Key? key})
+      : super(LoginRoute.name,
+            path: '/login-view', args: LoginRouteArgs(key: key));
 
   static const String name = 'LoginRoute';
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({this.key});
+
+  final _i11.Key? key;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -192,18 +209,32 @@ class MainRoute extends _i10.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.CalendarsView]
-class CalendarsRoute extends _i10.PageRouteInfo<void> {
-  const CalendarsRoute() : super(CalendarsRoute.name, path: 'calendars-view');
+class CalendarsRoute extends _i10.PageRouteInfo<CalendarsRouteArgs> {
+  CalendarsRoute({_i11.Key? key})
+      : super(CalendarsRoute.name,
+            path: 'calendars-view', args: CalendarsRouteArgs(key: key));
 
   static const String name = 'CalendarsRoute';
 }
 
-/// generated route for
-/// [_i7.RewardsView]
-class RewardsRoute extends _i10.PageRouteInfo<void> {
-  const RewardsRoute() : super(RewardsRoute.name, path: 'rewards-view');
+class CalendarsRouteArgs {
+  const CalendarsRouteArgs({this.key});
 
-  static const String name = 'RewardsRoute';
+  final _i11.Key? key;
+
+  @override
+  String toString() {
+    return 'CalendarsRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i7.AchievementsView]
+class AchievementsRoute extends _i10.PageRouteInfo<void> {
+  const AchievementsRoute()
+      : super(AchievementsRoute.name, path: 'achievements-view');
+
+  static const String name = 'AchievementsRoute';
 }
 
 /// generated route for

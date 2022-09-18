@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:qadha/providers/stats_provider.dart';
+import 'package:qadha/providers/calendar_provider.dart';
+import 'package:qadha/providers/remaining_prayers_provider.dart';
+import 'package:qadha/providers/stats/stats_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
 class StatsView extends ConsumerWidget {
@@ -188,6 +192,8 @@ class StatsView extends ConsumerWidget {
 
   Widget _buildYearlyProgress(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final progressData = ref.watch(statsProvider.notifier).getGeneralProgress(
+        ref.watch(remainingPrayersProvider), ref.watch(calendarProvider));
 
     return Container(
       width: size.width / 1.075,
@@ -212,7 +218,7 @@ class StatsView extends ConsumerWidget {
                     const Text("Performances annuelles",
                         style: TextStyle(
                             fontFamily: "Inter Regular", fontSize: 14.5)),
-                    Text("en 7 mois",
+                    Text("sur 7 mois",
                         style: TextStyle(
                             fontFamily: "Inter SemiBold",
                             fontSize: 13,
@@ -254,18 +260,30 @@ class StatsView extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 10),
+            if (true)
             FractionallySizedBox(
                 widthFactor: 0.9,
-                child: LinearPercentIndicator(
-                  animation: true,
-                  lineHeight: 18,
-                  animationDuration: 2000,
-                  percent: 0.65,
-                  trailing: const Text("65%",
-                      style: TextStyle(fontFamily: "Inter Regular")),
-                  barRadius: const Radius.circular(6),
-                  backgroundColor: AppTheme.deadColor.withOpacity(0.65),
-                  progressColor: AppTheme.accentColor,
+                child: Opacity(
+                  opacity: progressData[0] == -1 ? 0.4 : 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      LinearPercentIndicator(
+                        lineHeight: 18,
+                        animationDuration: 2000,
+                        percent: progressData[0] == -1 ? 0 : max(progressData[0] / 100, 0),
+                        trailing: Text("${progressData[0]}%",
+                            style: const TextStyle(fontFamily: "Inter Regular")),
+                        barRadius: const Radius.circular(6),
+                        backgroundColor: AppTheme.deadColor.withOpacity(0.65),
+                        progressColor: AppTheme.accentColor,
+                      ),
+                      const SizedBox(height: 12.5),
+                      Text(progressData[1] != 0 ? "${progressData[1]} prières restantes" : "aucune prière restante",
+                          style: const TextStyle(
+                              fontFamily: "Inter Regular", fontSize: 12.5)),
+                    ],
+                  ),
                 )),
             const SizedBox(height: 25),
           ],
@@ -300,7 +318,7 @@ class StatsView extends ConsumerWidget {
                     const Text("Performances mensuelles",
                         style: TextStyle(
                             fontFamily: "Inter Regular", fontSize: 14.5)),
-                    Text("en 30 jours",
+                    Text("sur 30 jours",
                         style: TextStyle(
                             fontFamily: "Inter SemiBold",
                             fontSize: 13,

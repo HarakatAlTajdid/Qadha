@@ -39,7 +39,8 @@ class StatsService {
     final statsDocRef = userDataRef.collection("stats").doc(type);
     final statsSnapshot = await statsDocRef.get();
 
-    if (statsSnapshot.data()!.containsKey("activities")) {
+    if (statsSnapshot.data() != null &&
+        statsSnapshot.data()!.containsKey("activities")) {
       final activities =
           statsSnapshot.data()!["activities"] as Map<String, dynamic>;
       if (activities.containsKey(formatDate(date))) {
@@ -57,7 +58,7 @@ class StatsService {
       }, SetOptions(merge: true));
     }
 
-    if (statsSnapshot.data()!.containsKey("remaining")) {
+    if (statsSnapshot.data() != null && statsSnapshot.data()!.containsKey("remaining")) {
       var remaining = statsSnapshot.data()!["remaining"] as int;
       remaining -= increment;
 
@@ -73,7 +74,8 @@ class StatsService {
     final statsDocRef = userDataRef.collection("stats").doc(type);
     final statsSnapshot = await statsDocRef.get();
 
-    if (statsSnapshot.data()!.containsKey("remaining")) {
+    if (statsSnapshot.data() != null &&
+        statsSnapshot.data()!.containsKey("remaining")) {
       return statsSnapshot.data()!["remaining"] as int;
     } else {
       return 0;

@@ -6,7 +6,11 @@ import 'qadha_monthly_calendar_viewmodel.dart';
 
 class QadhaMonthlyCalendar extends StatefulWidget {
   const QadhaMonthlyCalendar(this.selectionStart, this.selectionEnd,
-      {Key? key, this.allowInteraction = false, this.onInteraction, this.allowDeletion = false, this.onDeletion})
+      {Key? key,
+      this.allowInteraction = false,
+      this.onInteraction,
+      this.allowDeletion = false,
+      this.onDeletion})
       : super(key: key);
 
   final DateTime? selectionStart;
@@ -57,15 +61,24 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                                       child: Row(
                                         children: [
                                           if (model.selectionEnd != null &&
-                                              model.currentFrame.year > model.selectionEnd!.year || (model.currentFrame.year == model.selectionEnd!.year && model.currentFrame.month >
-                                                  model.selectionEnd!.month))
+                                                  (model.currentFrame.year >
+                                                      model
+                                                          .selectionEnd!.year ||
+                                              (model.currentFrame.year ==
+                                                      model
+                                                          .selectionEnd!.year &&
+                                                  model.currentFrame.month >
+                                                      model
+                                                          .selectionEnd!.month)))
                                             Container(
                                                 width: 7.5,
                                                 height: 7.5,
                                                 decoration: BoxDecoration(
-                                                    color: AppTheme.secundaryColor,
+                                                    color:
+                                                        AppTheme.secundaryColor,
                                                     borderRadius:
-                                                        BorderRadius.circular(360))),
+                                                        BorderRadius.circular(
+                                                            360))),
                                           const SizedBox(width: 9),
                                           Icon(Icons.arrow_back_ios,
                                               color: AppTheme.metallicColor,
@@ -94,15 +107,24 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                                               size: 15),
                                           const SizedBox(width: 5),
                                           if (model.selectionStart != null &&
-                                              model.currentFrame.year < model.selectionEnd!.year || (model.currentFrame.year == model.selectionEnd!.year && model.currentFrame.month <
-                                                  model.selectionEnd!.month))
+                                                  (model.currentFrame.year <
+                                                      model
+                                                          .selectionStart!.year ||
+                                              (model.currentFrame.year ==
+                                                      model
+                                                          .selectionStart!.year &&
+                                                  model.currentFrame.month <
+                                                      model
+                                                          .selectionStart!.month)))
                                             Container(
                                                 width: 7.5,
                                                 height: 7.5,
                                                 decoration: BoxDecoration(
-                                                    color: AppTheme.secundaryColor,
+                                                    color:
+                                                        AppTheme.secundaryColor,
                                                     borderRadius:
-                                                        BorderRadius.circular(360))),
+                                                        BorderRadius.circular(
+                                                            360))),
                                         ],
                                       ))),
                             ),
@@ -114,12 +136,16 @@ class _QadhaMonthlyCalendarState extends State<QadhaMonthlyCalendar> {
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: Material(
-                          child: InkWell(
-                            onTap: widget.onDeletion,
-                            borderRadius: BorderRadius.circular(360),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Icon(Icons.close_rounded, color: AppTheme.metallicColor, size: 22,)))),
+                            child: InkWell(
+                                onTap: widget.onDeletion,
+                                borderRadius: BorderRadius.circular(360),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(3),
+                                    child: Icon(
+                                      Icons.close_rounded,
+                                      color: AppTheme.metallicColor,
+                                      size: 22,
+                                    )))),
                       )
                   ],
                 ),

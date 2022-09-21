@@ -88,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
                     colorBlendMode: BlendMode.srcIn,
                     color: Colors.grey
                   )),
-              actions: [
+              /*actions: [
                 SizedBox(
                   width: 70,
                   child: Row(
@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                 ),
-              ],
+              ],*/
             ),
         bottomNavigationBuilder: (_, tabsRouter) {
           return QadhaNavbar(

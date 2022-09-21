@@ -103,7 +103,7 @@ class MainView extends ConsumerWidget {
                         ref
                             .read(statsProvider.notifier)
                             .incrementDailyPrayer(name.toLowerCase(), 1);
-                        if (challengeStatus == 9) {
+                        if (challengeStatus == 19) {
                           ref.read(achievementsProvider.notifier).incrementLevel();
                           ref.read(achievementsProvider.notifier).resetChallenge();
                           _showChallengeModal(context, ref.read(achievementsProvider).level);
@@ -234,8 +234,8 @@ class MainView extends ConsumerWidget {
                         widthFactor: 0.75,
                         child: LinearPercentIndicator(
                           lineHeight: 18,
-                          percent: challengeStatus / 10,
-                          trailing: Text("${challengeStatus * 10}%",
+                          percent: challengeStatus / 20,
+                          trailing: Text("${challengeStatus * 5}%",
                               style: const TextStyle(fontFamily: "Inter Regular")),
                           barRadius: const Radius.circular(6),
                           backgroundColor: AppTheme.deadColor.withOpacity(0.65),
@@ -243,7 +243,7 @@ class MainView extends ConsumerWidget {
                         )),
                     const SizedBox(height: 12.5),
                     Text(
-                        "Plus que ${10 - challengeStatus} avant de débloquer une nouvelle sagesse",
+                        "Plus que ${20 - challengeStatus} avant de débloquer une nouvelle sagesse",
                         style: const TextStyle(
                             fontFamily: "Inter Regular", fontSize: 13.5)),
                   ],

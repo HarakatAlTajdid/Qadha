@@ -35,8 +35,9 @@ class AddCalendarNotifier extends StateNotifier<AddCalendarState> {
     final newCalendar = CalendarModel(state.start!, state.end!);
     for (final calendar in _ref.watch(calendarProvider)) {
       if (newCalendar.intersectsWith(calendar)) {
+        //state = state.copyWith(calendarOverlapError: true, isWorking: false, step: 1, start: null, end: null);
+        reset();
         state = state.copyWith(calendarOverlapError: true);
-        state = state.copyWith(isWorking: false);
         return false;
       }
     }

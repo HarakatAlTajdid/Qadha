@@ -52,6 +52,18 @@ class AddCalendarModal extends ConsumerWidget {
               ref.read(addCalendarProvider.notifier).select(day);
             }, key: UniqueKey())),
         SizedBox(height: state.end != null ? 20 : 30),
+        if (state.calendarOverlapError)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: FractionallySizedBox(
+                      widthFactor: 0.85,
+                      child: Text(
+                          "Ce calendrier empiète sur un autre calendrier, veuillez le corriger avant de continuer",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: AppTheme.alertColor,
+                              fontFamily: "Inter SemiBold"))),
+                ),
         if (state.end == null)
           FractionallySizedBox(
             widthFactor: 0.9,
@@ -65,18 +77,7 @@ class AddCalendarModal extends ConsumerWidget {
         if (state.end != null)
           Column(
             children: [
-              if (state.calendarOverlapError)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.5),
-                  child: FractionallySizedBox(
-                      widthFactor: 0.85,
-                      child: Text(
-                          "Ce calendrier empiète sur un autre calendrier, veuillez le corriger avant de continuer",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: AppTheme.alertColor,
-                              fontFamily: "Inter SemiBold"))),
-                ),
+              
               SizedBox(
                   width: size.width / 1.15,
                   height: 52.5,

@@ -9,5 +9,5 @@ class AppTheme {
   static Color metallicColor = const Color(0xFF828C9D);
   static Color alertColor = const Color(0xFFFF6961);
   static Color goldenColor = const Color.fromARGB(255, 199, 143, 45);
-  static Color purpleColor = const Color(0xFFCBC6EC);
+  static Color purpleColor = Color.fromARGB(255, 195, 189, 238);
 } 

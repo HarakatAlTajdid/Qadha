@@ -15,14 +15,15 @@ import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:flutter/material.dart' as _i11;
 
 import '../../main.dart' as _i4;
+import '../../models/welcome/phone_registration.dart' as _i12;
 import '../views/achievements/achievements_view.dart' as _i7;
 import '../views/calendars/calendars_view.dart' as _i6;
 import '../views/main/main_view.dart' as _i5;
 import '../views/settings/settings_view.dart' as _i9;
 import '../views/stats/stats_view.dart' as _i8;
 import '../views/welcome/login/login_view.dart' as _i3;
+import '../views/welcome/register/register_view.dart' as _i1;
 import '../views/welcome/verification/verification_view.dart' as _i2;
-import '../views/welcome/welcome_view.dart' as _i1;
 
 class AppRouter extends _i10.RootStackRouter {
   AppRouter([_i11.GlobalKey<_i11.NavigatorState>? navigatorKey])
@@ -30,21 +31,19 @@ class AppRouter extends _i10.RootStackRouter {
 
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
-    WelcomeRoute.name: (routeData) {
-      final args = routeData.argsAs<WelcomeRouteArgs>(
-          orElse: () => const WelcomeRouteArgs());
+    RegisterRoute.name: (routeData) {
+      final args = routeData.argsAs<RegisterRouteArgs>(
+          orElse: () => const RegisterRouteArgs());
       return _i10.MaterialPageX<dynamic>(
           routeData: routeData,
           child:
-              _i1.WelcomeView(checkSession: args.checkSession, key: args.key));
+              _i1.RegisterView(checkSession: args.checkSession, key: args.key));
     },
     VerificationRoute.name: (routeData) {
       final args = routeData.argsAs<VerificationRouteArgs>();
       return _i10.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i2.VerificationView(args.phoneCode, args.phoneNumber,
-              args.password, args.verificationId,
-              key: args.key));
+          child: _i2.VerificationView(args.registration, key: args.key));
     },
     LoginRoute.name: (routeData) {
       final args = routeData.argsAs<LoginRouteArgs>(
@@ -82,7 +81,7 @@ class AppRouter extends _i10.RootStackRouter {
 
   @override
   List<_i10.RouteConfig> get routes => [
-        _i10.RouteConfig(WelcomeRoute.name, path: '/'),
+        _i10.RouteConfig(RegisterRoute.name, path: '/'),
         _i10.RouteConfig(VerificationRoute.name, path: '/verification-view'),
         _i10.RouteConfig(LoginRoute.name, path: '/login-view'),
         _i10.RouteConfig(HomeRoute.name, path: '/home-view', children: [
@@ -101,18 +100,18 @@ class AppRouter extends _i10.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.WelcomeView]
-class WelcomeRoute extends _i10.PageRouteInfo<WelcomeRouteArgs> {
-  WelcomeRoute({bool checkSession = true, _i11.Key? key})
-      : super(WelcomeRoute.name,
+/// [_i1.RegisterView]
+class RegisterRoute extends _i10.PageRouteInfo<RegisterRouteArgs> {
+  RegisterRoute({bool checkSession = true, _i11.Key? key})
+      : super(RegisterRoute.name,
             path: '/',
-            args: WelcomeRouteArgs(checkSession: checkSession, key: key));
+            args: RegisterRouteArgs(checkSession: checkSession, key: key));
 
-  static const String name = 'WelcomeRoute';
+  static const String name = 'RegisterRoute';
 }
 
-class WelcomeRouteArgs {
-  const WelcomeRouteArgs({this.checkSession = true, this.key});
+class RegisterRouteArgs {
+  const RegisterRouteArgs({this.checkSession = true, this.key});
 
   final bool checkSession;
 
@@ -120,7 +119,7 @@ class WelcomeRouteArgs {
 
   @override
   String toString() {
-    return 'WelcomeRouteArgs{checkSession: $checkSession, key: $key}';
+    return 'RegisterRouteArgs{checkSession: $checkSession, key: $key}';
   }
 }
 
@@ -128,44 +127,24 @@ class WelcomeRouteArgs {
 /// [_i2.VerificationView]
 class VerificationRoute extends _i10.PageRouteInfo<VerificationRouteArgs> {
   VerificationRoute(
-      {required String phoneCode,
-      required String phoneNumber,
-      required String password,
-      required String verificationId,
-      _i11.Key? key})
+      {required _i12.PhoneRegistration registration, _i11.Key? key})
       : super(VerificationRoute.name,
             path: '/verification-view',
-            args: VerificationRouteArgs(
-                phoneCode: phoneCode,
-                phoneNumber: phoneNumber,
-                password: password,
-                verificationId: verificationId,
-                key: key));
+            args: VerificationRouteArgs(registration: registration, key: key));
 
   static const String name = 'VerificationRoute';
 }
 
 class VerificationRouteArgs {
-  const VerificationRouteArgs(
-      {required this.phoneCode,
-      required this.phoneNumber,
-      required this.password,
-      required this.verificationId,
-      this.key});
+  const VerificationRouteArgs({required this.registration, this.key});
 
-  final String phoneCode;
-
-  final String phoneNumber;
-
-  final String password;
-
-  final String verificationId;
+  final _i12.PhoneRegistration registration;
 
   final _i11.Key? key;
 
   @override
   String toString() {
-    return 'VerificationRouteArgs{phoneCode: $phoneCode, phoneNumber: $phoneNumber, password: $password, verificationId: $verificationId, key: $key}';
+    return 'VerificationRouteArgs{registration: $registration, key: $key}';
   }
 }
 

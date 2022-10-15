@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/calendar_model.dart';
 import 'package:qadha/providers/remaining_prayers_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
-import 'package:qadha/ui/common/calendar/qadha_monthly_calendar.dart';
+import 'package:qadha/ui/common/calendar/qadha_calendar.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 
 import 'state/add_calendar_viewmodel.dart';
@@ -47,7 +47,7 @@ class AddCalendarModal extends ConsumerWidget {
                 ),
               ],
             ),
-            child: QadhaMonthlyCalendar(state.start, state.end,
+            child: QadhaCalendar(state.start, state.end,
                 allowInteraction: true, onInteraction: (day) {
               ref.read(addCalendarProvider.notifier).select(day);
             }, key: UniqueKey())),

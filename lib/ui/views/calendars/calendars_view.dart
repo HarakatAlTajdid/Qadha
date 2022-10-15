@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/providers/calendar_provider.dart';
 import 'package:qadha/providers/remaining_prayers_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
-import 'package:qadha/ui/common/calendar/qadha_monthly_calendar.dart';
+import 'package:qadha/ui/common/calendar/qadha_calendar.dart';
 
 import 'modals/add_calendar/add_calendar_view.dart';
 
@@ -135,7 +135,7 @@ class CalendarsView extends ConsumerWidget {
                                         offset: Offset(0, 4),
                                       ),
                                     ]),
-                                    child: QadhaMonthlyCalendar(
+                                    child: QadhaCalendar(
                                         calendar.start, calendar.end,
                                         key: UniqueKey(),
                                         allowDeletion: true, onDeletion: () {

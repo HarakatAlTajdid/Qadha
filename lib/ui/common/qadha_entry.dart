@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
@@ -70,6 +71,8 @@ class _QadhaEntryState extends State<QadhaEntry> {
             hintText: widget.hint,
             hintStyle: TextStyle(color: Colors.grey.withOpacity(0.8)),
             border: InputBorder.none),
+        inputFormatters:
+            widget.isPassword ? [FilteringTextInputFormatter.deny(" ")] : [],
         obscureText: widget.isPassword && !isPasswordShown,
         enableSuggestions: !widget.isPassword,
       ),

@@ -1,30 +1,28 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:qadha/services/authentication_service.dart';
+import 'package:qadha/models/welcome/phone_registration.dart';
+import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
-import 'package:stacked/stacked.dart';
-
-import 'verification_viewmodel.dart';
+import 'package:qadha/ui/views/welcome/verification/state/verification_viewmodel.dart';
 
 class VerificationView extends ConsumerWidget {
   VerificationView(
-      this.phoneCode, this.phoneNumber, this.password, this.verificationId,
+      this.registration,
       {Key? key})
       : super(key: key);
 
-  final String phoneCode;
-  final String phoneNumber;
-  final String password;
-  final String verificationId;
+  final PhoneRegistration registration;
 
   final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ViewModelBuilder<VerificationViewModel>.reactive(
-      builder: (context, model, child) => Scaffold(
+    final state = ref.watch(verificationProvider);
+    
+    return Scaffold(
         backgroundColor: AppTheme.primaryColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +35,7 @@ class VerificationView extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
                       child: Text(
-                          "Entre le code envoyé par SMS\nau +$phoneCode$phoneNumber",
+                          "Entre le code envoyé par SMS\nau ${registration.prettyPhone()}",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: "Inter Regular",
@@ -60,11 +58,11 @@ class VerificationView extends ConsumerWidget {
                             color: AppTheme.secundaryColor, fontSize: 22),
                         onChanged: (e) {}),
                   ),
-                  if (model.formHasError)
+                  if (state.formHasError)
                     Column(
                       children: [
                         const SizedBox(height: 7),
-                        Text(model.errorMessage,
+                        Text(state.errorMessage,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: AppTheme.alertColor, fontSize: 20)),
@@ -79,10 +77,12 @@ class VerificationView extends ConsumerWidget {
               child: SizedBox(
                 height: 53.5,
                 child: QadhaButton(
-                  text: "continuer",
-                  isLoading: model.isWorking,
+                  text: "Terminer l'inscription",
+                  isLoading: state.isWorking,
                   onTap: () async {
-                    await model.confirmCode(context, _textController.text);
+                    if (await ref.read(verificationProvider.notifier).confirmCode(registration, _textController.text)) {
+                      AutoRouter.of(context).replace(const HomeRoute());
+                    }
                   },
                 ),
               ),
@@ -90,13 +90,6 @@ class VerificationView extends ConsumerWidget {
             const SizedBox(height: 40)
           ],
         ),
-      ),
-      viewModelBuilder: () => VerificationViewModel(
-          ref.read(authServiceProvider),
-          phoneCode,
-          phoneNumber,
-          password,
-          verificationId),
-    );
+      );
   }
 }

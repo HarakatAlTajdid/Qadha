@@ -1,18 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 
-class SettingsView extends StatefulWidget {
+class SettingsView extends ConsumerWidget {
   const SettingsView({Key? key}) : super(key: key);
 
-  @override
-  State<SettingsView> createState() => _SettingsViewState();
-}
-
-class _SettingsViewState extends State<SettingsView> {
   Widget _buildTile(String iconName, String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -43,7 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return Padding(
@@ -77,7 +73,7 @@ class _SettingsViewState extends State<SettingsView> {
                   Navigator.pop(context);
                   // ignore: use_build_context_synchronously
                   AutoRouter.of(context)
-                      .replace(WelcomeRoute(checkSession: false));
+                      .replace(RegisterRoute(checkSession: false));
                 })),
         const SizedBox(height: 30)
       ]),

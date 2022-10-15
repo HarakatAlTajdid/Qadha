@@ -79,7 +79,7 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
                   fontFamily: "Inter Regular",
                   fontSize: 18),
               decoration: InputDecoration(
-                  hintText: "06 11 12 13 14",
+                  hintText: "6 11 12 13 14",
                   hintStyle: TextStyle(color: Colors.grey.withOpacity(0.8)),
                   border: InputBorder.none),
               keyboardType: TextInputType.phone,

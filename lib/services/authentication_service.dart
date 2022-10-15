@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qadha/models/exceptions/authentication_exception.dart';
+import 'package:qadha/models/welcome/phone_registration.dart';
 
 final authServiceProvider = Provider((ref) => AuthenticationService());
 
 class AuthenticationService {
   Future<bool> loginUser(
-      String phoneCode, String phoneNumber, String password) async {
-
-    final fakeMail = "$phoneCode${phoneNumber.replaceAll(" ", "")}@gmail.com";
+      PhoneRegistration registration) async {
 
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: fakeMail, password: password);
+          .signInWithEmailAndPassword(email: registration.fakeMail(), password: registration.password);
     } on FirebaseAuthException catch (error) {
       String message;
 
@@ -51,11 +50,10 @@ class AuthenticationService {
   }
 
   Future<bool> registerUser(
-      String phoneCode, String phoneNumber, String password) async {
-    final fakeMail = "$phoneCode${phoneNumber.replaceAll(" ", "")}@gmail.com";
+      PhoneRegistration registration) async {
     try {
       await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: fakeMail, password: password);
+          .createUserWithEmailAndPassword(email: registration.fakeMail(), password: registration.password);
     } on FirebaseAuthException catch (error) {
       String message = "Désolé, l'inscription a échoué\n(${error.code})";
       throw AuthenticationException(error.code, message);
@@ -64,10 +62,9 @@ class AuthenticationService {
     return true;
   }
 
-  Future<bool> doesUserExist(String phoneCode, String phoneNumber) async {
-    final fakeMail = "$phoneCode${phoneNumber.replaceAll(" ", "")}@gmail.com";
+  Future<bool> doesUserExist(PhoneRegistration registration) async {
     final signInMethods =
-        await FirebaseAuth.instance.fetchSignInMethodsForEmail(fakeMail);
+        await FirebaseAuth.instance.fetchSignInMethodsForEmail(registration.fakeMail());
     return signInMethods.isNotEmpty;
   }
 }

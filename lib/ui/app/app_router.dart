@@ -6,13 +6,13 @@ import 'package:qadha/ui/views/main/main_view.dart';
 import 'package:qadha/ui/views/settings/settings_view.dart';
 import 'package:qadha/ui/views/stats/stats_view.dart';
 import 'package:qadha/ui/views/welcome/login/login_view.dart';
+import 'package:qadha/ui/views/welcome/register/register_view.dart';
 import 'package:qadha/ui/views/welcome/verification/verification_view.dart';
-import 'package:qadha/ui/views/welcome/welcome_view.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'View,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: WelcomeView, initial: true),
+    AutoRoute(page: RegisterView, initial: true),
     AutoRoute(page: VerificationView),
     AutoRoute(page: LoginView),
     AutoRoute(page: HomeView, children: [

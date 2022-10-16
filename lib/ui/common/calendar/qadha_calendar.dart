@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:qadha/ui/app/app_theme.dart';
-import 'package:qadha/ui/common/calendar/state/qadha_calendar_viewmodel.dart';
 
-class QadhaCalendar extends ConsumerWidget {
+class QadhaCalendar extends StatefulWidget {
   const QadhaCalendar(this.selectionStart, this.selectionEnd,
       {Key? key,
       this.allowInteraction = false,
@@ -20,13 +21,78 @@ class QadhaCalendar extends ConsumerWidget {
   final Function()? onDeletion;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<QadhaCalendar> createState() => _QadhaCalendarState();
+}
+
+class _QadhaCalendarState extends State<QadhaCalendar> {
+  late DateTime currentFrame;
+  late List<DateTime> days; // 42 days needed
+
+  @override
+  void initState() {
+    if (widget.selectionStart == null) {
+      currentFrame = DateTime(DateTime.now().year, DateTime.now().month);
+    } else {
+      currentFrame =
+          DateTime(widget.selectionStart!.year, widget.selectionStart!.month);
+    }
+    
+    days = [];
+    retrieveCurrentFrame();
+    super.initState();
+  }
+
+  String prettyCurrentFrame() {
+    return DateFormat("MMMM yyyy", "fr_fr").format(currentFrame);
+  }
+
+  void setFrame(int increment) {
+    currentFrame = DateTime(currentFrame.year, currentFrame.month + increment);
+    retrieveCurrentFrame();
+  }
+
+  // Retrieves a list of 42 days to be displayed for current frame
+  void retrieveCurrentFrame() {
+    days.clear();
+
+    final currentFrameDaysCount =
+        DateTime(currentFrame.year, currentFrame.month + 1, 0).day;
+    final currentFrameFirstDay =
+        DateTime.utc(currentFrame.year, currentFrame.month, 1).weekday;
+
+    // First day is not Monday, generate the preceeding days from
+    // the preceeding frame, like a visual padding
+    if (currentFrameFirstDay != 1) {
+      for (int i = 1; i < currentFrameFirstDay; i++) {
+        final day =
+            currentFrame.subtract(Duration(days: currentFrameFirstDay - i));
+        days.add(day);
+      }
+    }
+
+    for (int i = 1; i <= currentFrameDaysCount; i++) {
+      final day = DateTime(currentFrame.year, currentFrame.month, i);
+      days.add(day);
+    }
+
+    if (days.length < 42) {
+      final missingDaysCount = 42 - days.length;
+      for (int i = 0; i < missingDaysCount; i++) {
+        final day =
+            DateTime(days.last.year, days.last.month, days.last.day + 1);
+        days.add(day);
+      }
+    }
+
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final itemWidth = (size.width - 20) / 7;
 
     const tableDescriptorStyle = TextStyle(fontFamily: "Inter Regular");
-
-    final state = ref.watch(qadhaCalendarProvider);
 
     return Container(
         decoration: BoxDecoration(
@@ -49,21 +115,21 @@ class QadhaCalendar extends ConsumerWidget {
                           child: InkWell(
                               customBorder: const CircleBorder(),
                               onTap: () {
-                                ref
-                                    .read(qadhaCalendarProvider.notifier)
-                                    .setFrame(-1);
+                                setFrame(-1);
                               },
                               child: Padding(
                                   padding: const EdgeInsets.all(7.5),
                                   child: Row(
                                     children: [
-                                      if (selectionEnd != null &&
-                                          (state.currentFrame.year >
-                                                  selectionEnd!.year ||
-                                              (state.currentFrame.year ==
-                                                      selectionEnd!.year &&
-                                                  state.currentFrame.month >
-                                                      selectionEnd!.month)))
+                                      if (widget.selectionEnd != null &&
+                                          (currentFrame.year >
+                                                  widget.selectionEnd!.year ||
+                                              (currentFrame.year ==
+                                                      widget
+                                                          .selectionEnd!.year &&
+                                                  currentFrame.month >
+                                                      widget.selectionEnd!
+                                                          .month)))
                                         Container(
                                             width: 7.5,
                                             height: 7.5,
@@ -79,11 +145,7 @@ class QadhaCalendar extends ConsumerWidget {
                                     ],
                                   ))),
                         ),
-                        Text(
-                            ref
-                                .read(qadhaCalendarProvider.notifier)
-                                .prettyCurrentFrame()
-                                .toUpperCase(),
+                        Text(prettyCurrentFrame().toUpperCase(),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: "Inter Regular",
@@ -93,9 +155,7 @@ class QadhaCalendar extends ConsumerWidget {
                           child: InkWell(
                               customBorder: const CircleBorder(),
                               onTap: () {
-                                ref
-                                    .read(qadhaCalendarProvider.notifier)
-                                    .setFrame(1);
+                                setFrame(1);
                               },
                               child: Padding(
                                   padding: const EdgeInsets.all(7.5),
@@ -105,13 +165,15 @@ class QadhaCalendar extends ConsumerWidget {
                                           color: AppTheme.metallicColor,
                                           size: 15),
                                       const SizedBox(width: 5),
-                                      if (selectionStart != null &&
-                                          (state.currentFrame.year <
-                                                  selectionStart!.year ||
-                                              (state.currentFrame.year ==
-                                                      selectionStart!.year &&
-                                                  state.currentFrame.month <
-                                                      selectionStart!.month)))
+                                      if (widget.selectionStart != null &&
+                                          (currentFrame.year <
+                                                  widget.selectionStart!.year ||
+                                              (currentFrame.year ==
+                                                      widget.selectionStart!
+                                                          .year &&
+                                                  currentFrame.month <
+                                                      widget.selectionStart!
+                                                          .month)))
                                         Container(
                                             width: 7.5,
                                             height: 7.5,
@@ -127,12 +189,12 @@ class QadhaCalendar extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (allowDeletion)
+                if (widget.allowDeletion)
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Material(
                         child: InkWell(
-                            onTap: onDeletion,
+                            onTap: widget.onDeletion,
                             borderRadius: BorderRadius.circular(360),
                             child: Padding(
                                 padding: const EdgeInsets.all(3),
@@ -172,17 +234,17 @@ class QadhaCalendar extends ConsumerWidget {
                   childAspectRatio: 1.45,
                   crossAxisCount: 7,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: List.generate(state.days.length, (index) {
-                    final day = state.days[index];
+                  children: List.generate(days.length, (index) {
+                    final day = days[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Stack(children: [
-                        if (selectionStart != null &&
-                                selectionEnd != null &&
-                                day == selectionStart ||
-                            day == selectionEnd)
+                        if (widget.selectionStart != null &&
+                                widget.selectionEnd != null &&
+                                day == widget.selectionStart ||
+                            day == widget.selectionEnd)
                           Row(
-                            mainAxisAlignment: day == selectionStart
+                            mainAxisAlignment: day == widget.selectionStart
                                 ? MainAxisAlignment.end
                                 : MainAxisAlignment.start,
                             children: [
@@ -191,10 +253,10 @@ class QadhaCalendar extends ConsumerWidget {
                                   color: AppTheme.purpleColor.withOpacity(0.5)),
                             ],
                           ),
-                        if (selectionStart != null &&
-                            selectionEnd != null &&
-                            day.difference(selectionStart!).inDays > 0 &&
-                            day.difference(selectionEnd!).inDays < 0)
+                        if (widget.selectionStart != null &&
+                            widget.selectionEnd != null &&
+                            day.difference(widget.selectionStart!).inDays > 0 &&
+                            day.difference(widget.selectionEnd!).inDays < 0)
                           Container(
                               color: AppTheme.purpleColor.withOpacity(0.5)),
                         Center(
@@ -204,29 +266,28 @@ class QadhaCalendar extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(360),
                               splashColor:
                                   AppTheme.secundaryColor.withOpacity(0.5),
-                              onTap: allowInteraction
-                                  ? () => onInteraction!(day)
+                              onTap: widget.allowInteraction
+                                  ? () => widget.onInteraction!(day)
                                   : null,
                               child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(minWidth: 27),
-                                decoration:
-                                    day == selectionStart || day == selectionEnd
-                                        ? BoxDecoration(
-                                            color: AppTheme.secundaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(360))
-                                        : null,
+                                decoration: day == widget.selectionStart ||
+                                        day == widget.selectionEnd
+                                    ? BoxDecoration(
+                                        color: AppTheme.secundaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(360))
+                                    : null,
                                 child: Text(day.day.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: "Inter SemiBold",
                                         fontSize: 13,
-                                        color: day == selectionStart ||
-                                                day == selectionEnd
+                                        color: day == widget.selectionStart ||
+                                                day == widget.selectionEnd
                                             ? AppTheme.primaryColor
-                                            : day.month !=
-                                                    state.currentFrame.month
+                                            : day.month != currentFrame.month
                                                 ? AppTheme.deadColor
                                                 : AppTheme.metallicColor)),
                               ),

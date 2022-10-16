@@ -9,10 +9,7 @@ import 'package:qadha/ui/common/qadha_button.dart';
 import 'package:qadha/ui/views/welcome/verification/state/verification_viewmodel.dart';
 
 class VerificationView extends ConsumerWidget {
-  VerificationView(
-      this.registration,
-      {Key? key})
-      : super(key: key);
+  VerificationView(this.registration, {Key? key}) : super(key: key);
 
   final PhoneRegistration registration;
 
@@ -21,75 +18,91 @@ class VerificationView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(verificationProvider);
-    
+
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-        backgroundColor: AppTheme.primaryColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: Text(
-                          "Entre le code envoyé par SMS\nau ${registration.prettyPhone()}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "Inter Regular",
-                              color: AppTheme.secundaryColor,
-                              fontSize: 22)),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  FractionallySizedBox(
-                    widthFactor: 0.75,
-                    child: PinCodeTextField(
-                        controller: _textController,
-                        appContext: context,
-                        length: 6,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textStyle: TextStyle(
-                            color: AppTheme.secundaryColor, fontSize: 22),
-                        onChanged: (e) {}),
-                  ),
-                  if (state.formHasError)
-                    Column(
+      backgroundColor: AppTheme.secundaryColor,
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0 ? size.height / 6 : size.height / 8),
+          Expanded(
+              child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(45))
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 7),
-                        Text(state.errorMessage,
+                        Text(
+                            "Veuillez entrer le code de confirmation envoyé par SMS\nau ${registration.prettyPhone()}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: AppTheme.alertColor, fontSize: 20)),
-                        const SizedBox(height: 10),
+                                fontFamily: "Inter Regular",
+                                color: AppTheme.secundaryColor,
+                                fontSize: 22)),
+                        const SizedBox(height: 20),
+                        FractionallySizedBox(
+                          widthFactor: 0.8,
+                          child: PinCodeTextField(
+                              controller: _textController,
+                              appContext: context,
+                              length: 6,
+                              pinTheme: PinTheme(
+                                shape: PinCodeFieldShape.box,
+                                selectedColor: AppTheme.metallicColor,
+                                inactiveColor: AppTheme.deadColor,
+                              ),
+                              keyboardType: TextInputType.number,
+                              textStyle: TextStyle(
+                                  color: AppTheme.secundaryColor, fontSize: 22),
+                              onChanged: (e) {}),
+                        ),
+                        if (state.formHasError)
+                          Column(
+                            children: [
+                              const SizedBox(height: 7),
+                              Text(state.errorMessage,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: AppTheme.alertColor, fontSize: 20)),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
                       ],
                     ),
-                ],
-              ),
-            ),
-            FractionallySizedBox(
-              widthFactor: 0.85,
-              child: SizedBox(
-                height: 53.5,
-                child: QadhaButton(
-                  text: "Terminer l'inscription",
-                  isLoading: state.isWorking,
-                  onTap: () async {
-                    if (await ref.read(verificationProvider.notifier).confirmCode(registration, _textController.text)) {
-                      AutoRouter.of(context).replace(const HomeRoute());
-                    }
-                  },
+                  ),
                 ),
-              ),
+                FractionallySizedBox(
+                  widthFactor: 0.95,
+                  child: SizedBox(
+                    height: 53.5,
+                    child: QadhaButton(
+                      text: "Terminer l'inscription",
+                      isLoading: state.isWorking,
+                      onTap: () async {
+                        if (await ref
+                            .read(verificationProvider.notifier)
+                            .confirmCode(registration, _textController.text)) {
+                          AutoRouter.of(context).replace(const HomeRoute());
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40)
+              ],
             ),
-            const SizedBox(height: 40)
-          ],
-        ),
-      );
+          )),
+        ],
+      ),
+    );
   }
 }

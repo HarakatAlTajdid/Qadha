@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDL_z9jvQ3gObXVI8LcS1AE_BYFn_aHPrs',
-    appId: '1:95505930885:android:0c6b35c3a2ed2c5e9b27ec',
+    appId: '1:95505930885:android:e337b190f516a8349b27ec',
     messagingSenderId: '95505930885',
     projectId: 'qadha-bad5c',
     storageBucket: 'qadha-bad5c.appspot.com',
@@ -59,11 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCZdsXqjsTg39uCK5UKqTNayNks_e80Ojw',
-    appId: '1:95505930885:ios:da4e9aacff98bb219b27ec',
+    appId: '1:95505930885:ios:43ac9ca1f992a1a39b27ec',
     messagingSenderId: '95505930885',
     projectId: 'qadha-bad5c',
     storageBucket: 'qadha-bad5c.appspot.com',
-    iosClientId: '95505930885-c9e7rmgfp2k3erv97uqb9nuccts788pt.apps.googleusercontent.com',
-    iosBundleId: 'com.example.qadha',
+    androidClientId: '95505930885-epvauk63u8nb334am2ip13r7lmnn48pe.apps.googleusercontent.com',
+    iosClientId: '95505930885-s168fim5p4dn1bmip9u3psgne1gfuj49.apps.googleusercontent.com',
+    iosBundleId: 'com.hiraislam.qadha',
   );
 }

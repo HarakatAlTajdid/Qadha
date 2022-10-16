@@ -51,14 +51,13 @@ class RegisterView extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 50),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0 ? 60 : 100),
                   Expanded(
-                              flex:
-                                  MediaQuery.of(context).viewInsets.bottom != 0
-                                      ? 0
-                                      : state.formHasError
-                                          ? 15
-                                          : 7,
+                      flex: MediaQuery.of(context).viewInsets.bottom != 0
+                          ? 0
+                          : state.formHasError
+                              ? 15
+                              : 7,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -130,7 +129,8 @@ class RegisterView extends ConsumerWidget {
                                               registration.verificationId = vId;
                                               AutoRouter.of(context).push(
                                                   VerificationRoute(
-                                                      registration: registration));
+                                                      registration:
+                                                          registration));
                                             });
                                           })),
                                 ],

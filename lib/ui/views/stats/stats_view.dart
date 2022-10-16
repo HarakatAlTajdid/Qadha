@@ -272,7 +272,7 @@ class StatsView extends ConsumerWidget {
                         lineHeight: 18,
                         animationDuration: 2000,
                         percent: progressData[0] == -1 ? 0 : max(progressData[0] / 100, 0),
-                        trailing: Text("${progressData[0]}%",
+                        trailing: Text(progressData[0] == -1 ? "0%" : "${progressData[0]}%",
                             style: const TextStyle(fontFamily: "Inter Regular")),
                         barRadius: const Radius.circular(6),
                         backgroundColor: AppTheme.deadColor.withOpacity(0.65),
@@ -281,7 +281,7 @@ class StatsView extends ConsumerWidget {
                       const SizedBox(height: 12.5),
                       Text(progressData[1] != 0 ? "${progressData[1]} prières restantes" : "aucune prière restante",
                           style: const TextStyle(
-                              fontFamily: "Inter Regular", fontSize: 12.5)),
+                              fontFamily: "Inter Regular", fontSize: 13.5)),
                     ],
                   ),
                 )),
@@ -343,6 +343,7 @@ class StatsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(

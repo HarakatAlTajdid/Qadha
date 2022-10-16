@@ -31,6 +31,7 @@ class CalendarsView extends ConsumerWidget {
     final calendars = ref.watch(calendarProvider);
 
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child:

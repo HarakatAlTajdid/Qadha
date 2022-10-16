@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:95505930885:android:0c6b35c3a2ed2c5e9b27ec",
+        "mobilesdk_app_id": "1:95505930885:android:e337b190f516a8349b27ec",
         "android_client_info": {
-          "package_name": "com.example.qadha"
+          "package_name": "com.hiraislam.qadha"
         }
       },
       "oauth_client": [

@@ -1,4 +1,4 @@
-package com.example.qadha
+package com.hiraislam.qadha
 
 import io.flutter.embedding.android.FlutterActivity
 

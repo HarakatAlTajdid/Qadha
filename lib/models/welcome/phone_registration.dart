@@ -7,6 +7,10 @@ class PhoneRegistration {
   PhoneRegistration(this.phoneCode, this.phoneNumber, this.password);
 
   String fakeMail() {
+    if (phoneNumber.trim().isEmpty) {
+      return "nothing@gmail.com";
+    }
+    
     return "$phoneCode${int.parse(phoneNumber.replaceAll(" ", ""))}@gmail.com";
   }
 

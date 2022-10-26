@@ -30,13 +30,18 @@ class _QadhaCalendarState extends State<QadhaCalendar> {
 
   @override
   void initState() {
-    if (widget.selectionStart == null) {
-      currentFrame = DateTime(DateTime.now().year, DateTime.now().month);
+    if (widget.selectionEnd == null) {
+      if (widget.selectionStart == null) {
+        currentFrame = DateTime(DateTime.now().year, DateTime.now().month);
+      } else {
+        currentFrame =
+            DateTime(widget.selectionStart!.year, widget.selectionStart!.month);
+      }
     } else {
       currentFrame =
-          DateTime(widget.selectionStart!.year, widget.selectionStart!.month);
+          DateTime(widget.selectionEnd!.year, widget.selectionEnd!.month);
     }
-    
+
     days = [];
     retrieveCurrentFrame();
     super.initState();

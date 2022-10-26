@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
+import 'package:qadha/ui/views/delete_account/delete_account_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsView extends ConsumerWidget {
@@ -19,8 +20,8 @@ class SettingsView extends ConsumerWidget {
           splashColor: AppTheme.deadColor,
           onTap: onTap,
           child: Padding(
-            padding:
-                const EdgeInsets.only(left: 20, top: 17.5, right: 20, bottom: 2.5),
+            padding: const EdgeInsets.only(
+                left: 20, top: 17.5, right: 20, bottom: 2.5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -78,8 +79,23 @@ class SettingsView extends ConsumerWidget {
                 }),
                 //_buildTile("cog", "Mises à jour"),
                 _buildTile("about", "À propos de Qadha", onTap: () async {
-                  const repoUrl = "https://github.com/HarakatAlTajdid/Qadha#readme";
+                  const repoUrl =
+                      "https://github.com/HarakatAlTajdid/Qadha#readme";
                   await launchUrl(Uri.parse(repoUrl));
+                }),
+                _buildTile("warning", "Supprimer mon compte", onTap: () async {
+                  /*FirebaseAuth.instance.currentUser!.delete();
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
+                  // ignore: use_build_context_synchronously
+                  AutoRouter.of(context)
+                      .replace(RegisterRoute(checkSession: false));
+*/
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return DeleteAccountView();
+                      });
                 }),
               ]),
         ),

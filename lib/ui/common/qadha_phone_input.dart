@@ -68,7 +68,7 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
           ),
           const SizedBox(width: 10),
           SizedBox(
-            width: (size.width / 1.65 > 200) ? 200 : (size.width / 1.65),
+            width: (size.width / 1.75 > 150) ? 150 : (size.width / 1.75),
             child: TextField(
               controller: widget.numController,
               autocorrect: false,

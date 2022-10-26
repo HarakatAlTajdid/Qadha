@@ -37,7 +37,7 @@ class AchievementsNotifier extends StateNotifier<AchievementsState> {
   }
 
   void resetChallenge() {
-    _ref.read(achievementsServiceProvider).incrementChallenge(-9);
+    _ref.read(achievementsServiceProvider).incrementChallenge(-19);
     state = state.copyWith(challengeStatus: 0);
   }
 }

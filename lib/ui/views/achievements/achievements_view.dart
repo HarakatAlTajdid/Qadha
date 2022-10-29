@@ -30,13 +30,13 @@ class AchievementsView extends ConsumerWidget {
                               ? "Hadith authentique"
                               : "Verset coranique",
                           style: const TextStyle(
-                              fontSize: 16, fontFamily: "Inter SemiBold"))),
+                              fontSize: 17, fontFamily: "Inter SemiBold"))),
                   const Divider(thickness: 1.5),
                   const SizedBox(height: 10),
-                  Text(achievement.text,
+                  SelectableText(achievement.text,
                       textAlign: TextAlign.justify,
                       style: const TextStyle(
-                          fontSize: 17, fontFamily: "Inter Regular")),
+                          fontSize: 18, fontFamily: "Inter Regular")),
                   const SizedBox(height: 150),
                 ],
               ),
@@ -94,8 +94,8 @@ class AchievementsView extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: AppTheme.purpleColor,
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(35),
                       bottomRight: Radius.circular(35),
                     ),
@@ -116,7 +116,6 @@ class AchievementsView extends ConsumerWidget {
                                 crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           final achievement = achievements[index];
-
                           return Opacity(
                             opacity:
                                 index >= level ? 0.8 : 1,
@@ -186,11 +185,11 @@ class AchievementsView extends ConsumerWidget {
                                                 Blur(
                                                   colorOpacity: index >=
                                                           level
-                                                      ? 0.8
+                                                      ? 0.75
                                                       : 0,
                                                   blur: index >=
                                                           level
-                                                      ? 5
+                                                      ? 2.75
                                                       : 0,
                                                   child: Text(
                                                       achievement.type,
@@ -207,11 +206,11 @@ class AchievementsView extends ConsumerWidget {
                                                   child: Blur(
                                                     colorOpacity: index >=
                                                             level
-                                                        ? 0.75
+                                                        ? 0.5
                                                         : 0,
                                                     blur: index >=
                                                             level
-                                                        ? 5
+                                                        ? 2
                                                         : 0,
                                                     child: Text(
                                                         achievement
@@ -242,7 +241,7 @@ class AchievementsView extends ConsumerWidget {
                               if (index >= level)
                                 const Center(
                                     child: Text("🔐",
-                                        style: TextStyle(fontSize: 42.5)))
+                                        style: TextStyle(fontSize: 45.5)))
                             ]),
                           );
                         },

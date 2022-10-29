@@ -7,6 +7,7 @@ import 'package:qadha/ui/app/app_theme.dart';
 class QadhaCalendar extends StatefulWidget {
   const QadhaCalendar(this.selectionStart, this.selectionEnd,
       {Key? key,
+      this.allowYearChange = false,
       this.allowInteraction = false,
       this.onInteraction,
       this.allowDeletion = false,
@@ -15,6 +16,7 @@ class QadhaCalendar extends StatefulWidget {
 
   final DateTime? selectionStart;
   final DateTime? selectionEnd;
+  final bool allowYearChange;
   final bool allowInteraction;
   final Function(DateTime)? onInteraction;
   final bool allowDeletion;
@@ -45,10 +47,6 @@ class _QadhaCalendarState extends State<QadhaCalendar> {
     days = [];
     retrieveCurrentFrame();
     super.initState();
-  }
-
-  String prettyCurrentFrame() {
-    return DateFormat("MMMM yyyy", "fr_fr").format(currentFrame);
   }
 
   void setFrame(int increment) {
@@ -106,6 +104,92 @@ class _QadhaCalendarState extends State<QadhaCalendar> {
         child: Column(
           children: [
             const SizedBox(height: 15),
+            if (widget.allowYearChange)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Material(
+                              color: AppTheme.primaryColor,
+                              child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: () {
+                                    setFrame(-12);
+                                  },
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(7.5),
+                                      child: Row(
+                                        children: [
+                                          if (widget.selectionEnd != null &&
+                                              (currentFrame.year >
+                                                      widget
+                                                          .selectionEnd!.year))
+                                            Container(
+                                                width: 7.5,
+                                                height: 7.5,
+                                                decoration: BoxDecoration(
+                                                    color:
+                                                        AppTheme.secundaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            360))),
+                                          const SizedBox(width: 9),
+                                          Icon(Icons.arrow_back_ios,
+                                              color: AppTheme.metallicColor,
+                                              size: 15),
+                                        ],
+                                      ))),
+                            ),
+                            Text(DateFormat("yyyy").format(currentFrame),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: "Inter Regular",
+                                    color: AppTheme.metallicColor)),
+                            Material(
+                              color: AppTheme.primaryColor,
+                              child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: () {
+                                    setFrame(12);
+                                  },
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(7.5),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.arrow_forward_ios,
+                                              color: AppTheme.metallicColor,
+                                              size: 15),
+                                          const SizedBox(width: 5),
+                                          if (widget.selectionStart != null &&
+                                              (currentFrame.year <
+                                                      widget.selectionStart!
+                                                          .year))
+                                            Container(
+                                                width: 7.5,
+                                                height: 7.5,
+                                                decoration: BoxDecoration(
+                                                    color:
+                                                        AppTheme.secundaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            360))),
+                                        ],
+                                      ))),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -150,7 +234,10 @@ class _QadhaCalendarState extends State<QadhaCalendar> {
                                     ],
                                   ))),
                         ),
-                        Text(prettyCurrentFrame().toUpperCase(),
+                        Text(
+                            DateFormat("MMMM", "fr_fr")
+                                .format(currentFrame)
+                                .toUpperCase(),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: "Inter Regular",
@@ -217,7 +304,7 @@ class _QadhaCalendarState extends State<QadhaCalendar> {
                   thickness: 1.25, color: AppTheme.deadColor.withOpacity(0.6)),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [

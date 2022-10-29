@@ -36,7 +36,7 @@ class AddCalendarModal extends ConsumerWidget {
         const SizedBox(height: 5),
         Container(
             width: size.width / 1.1,
-            height: size.height / 2.6,
+            height: size.height / 2.4 < 300 ? 300 : size.height / 2.4,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -48,6 +48,7 @@ class AddCalendarModal extends ConsumerWidget {
               ],
             ),
             child: QadhaCalendar(state.start, state.end,
+            allowYearChange: true,
                 allowInteraction: true, onInteraction: (day) {
               ref.read(addCalendarProvider.notifier).select(day);
             }, key: UniqueKey())),
@@ -80,7 +81,7 @@ class AddCalendarModal extends ConsumerWidget {
               
               SizedBox(
                   width: size.width / 1.15,
-                  height: 52.5,
+                  height: 54,
                   child: QadhaButton(
                       text: "Valider",
                       isLoading: state.isWorking,

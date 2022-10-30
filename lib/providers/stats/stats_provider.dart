@@ -25,27 +25,14 @@ class StatsNotifier extends StateNotifier<StatsState> {
   int getDonePrayers({String? type, int? year, int? month, int? day}) {
     int sum = 0;
     for (final activity in state.activities) {
-      bool keep = false;
-
-      if (type != null) {
-        keep = activity.type == type;
+      if ((type != null && activity.type != type) ||
+          (year != null && activity.date.year != year) ||
+          (month != null && activity.date.month != month) ||
+          (day != null && activity.date.day != day)) {
+        continue;
       }
 
-      if (year != null) {
-        keep = activity.date.year == year;
-      }
-
-      if (month != null) {
-        keep = activity.date.month == month;
-      }
-
-      if (day != null) {
-        keep = activity.date.day == day;
-      }
-
-      if (keep) {
-        sum += activity.count;
-      }
+      sum += activity.count;
     }
 
     return sum;
@@ -88,7 +75,8 @@ class StatsNotifier extends StateNotifier<StatsState> {
 
   // 0: progress percentage
   // 1: total remaining rakat
-  List<int> getGeneralProgress(List<int> remainingPrayers, List<CalendarModel> calendars) {
+  List<int> getGeneralProgress(
+      List<int> remainingPrayers, List<CalendarModel> calendars) {
     int totalRemaining = 0;
     for (final remaining in remainingPrayers) {
       totalRemaining += remaining;
@@ -106,15 +94,13 @@ class StatsNotifier extends StateNotifier<StatsState> {
       return [100, 0];
     }
 
-    return [
-      (quotient * 100).toInt(),
-      totalRemaining
-    ];
+    return [(quotient * 100).toInt(), totalRemaining];
   }
 
   // 0: progress percentage
   // 1: total remaining rakat
-  double getSpecificProgress(String prayer, int remaining, List<CalendarModel> calendars) {
+  double getSpecificProgress(
+      String prayer, int remaining, List<CalendarModel> calendars) {
     int totalRakaa = 0;
     for (final calendar in calendars) {
       totalRakaa += calendar.totalDays();

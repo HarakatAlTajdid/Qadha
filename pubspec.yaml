@@ -28,12 +28,14 @@ dependencies:
   intl: ^0.17.0
   flutter_rating_bar: ^4.0.1
   fl_chart: ^0.55.1
-  cloud_firestore: ^3.4.6
+  cloud_firestore: any
   flutter_riverpod: ^1.0.4
   blur: ^3.1.0
   flutter_launcher_icons: ^0.10.0
   flutter_native_splash: ^2.2.9
   url_launcher: ^6.1.6
+  flutter_screenutil: ^5.6.0
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

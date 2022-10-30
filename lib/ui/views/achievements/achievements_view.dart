@@ -2,6 +2,7 @@ import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/models/achievement_model.dart';
 import 'package:qadha/providers/achievements/achievements_provider.dart';
 import 'package:qadha/ui/app/app_theme.dart';
@@ -18,26 +19,26 @@ class AchievementsView extends ConsumerWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         backgroundColor: AppTheme.primaryColor,
         builder: (ctx) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.symmetric(horizontal: 25.sp),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25.sp),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                           achievement.type == "Hadith"
                               ? "Hadith authentique"
                               : "Verset coranique",
-                          style: const TextStyle(
-                              fontSize: 17, fontFamily: "Inter SemiBold"))),
-                  const Divider(thickness: 1.5),
-                  const SizedBox(height: 10),
+                          style: TextStyle(
+                              fontSize: 17.sp, fontFamily: "Inter SemiBold"))),
+                  Divider(thickness: 1.5.sp),
+                  SizedBox(height: 10.sp),
                   SelectableText(achievement.text,
                       textAlign: TextAlign.justify,
-                      style: const TextStyle(
-                          fontSize: 18, fontFamily: "Inter Regular")),
-                  const SizedBox(height: 150),
+                      style: TextStyle(
+                          fontSize: 17.5.sp, fontFamily: "Inter Regular")),
+                  SizedBox(height: 150.sp),
                 ],
               ),
             ));
@@ -52,18 +53,18 @@ class AchievementsView extends ConsumerWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.symmetric(vertical: 20.sp),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 30),
+                 SizedBox(height: 30.sp),
                 Center(
                     child: Text("Niveau $level",
-                        style: const TextStyle(
-                            fontFamily: "Inter Regular", fontSize: 22))),
-                const SizedBox(height: 10),
+                        style:  TextStyle(
+                            fontFamily: "Inter Regular", fontSize: 22.sp))),
+                 SizedBox(height: 10.sp),
                 RatingBar.builder(
-                  itemSize: 25,
+                  itemSize: 25.sp,
                   initialRating:
                       (level / achievements.length < 0.25)
                           ? 1
@@ -83,17 +84,17 @@ class AchievementsView extends ConsumerWidget {
                   ignoreGestures: true,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 1.5),
+                  itemPadding:  EdgeInsets.symmetric(horizontal: 1.5.sp),
                   itemBuilder: (context, _) =>
                       Icon(Icons.star_rounded, color: AppTheme.goldenColor),
                   unratedColor: Colors.black,
                   onRatingUpdate: (double value) {},
                 ),
-                const SizedBox(height: 45),
+                 SizedBox(height: 45.sp),
                 Container(
                   decoration: BoxDecoration(
                     color: AppTheme.purpleColor,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius:  const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(35),
@@ -102,17 +103,17 @@ class AchievementsView extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(height: 20),
-                      const Text("Sagesses débloquées",
+                       SizedBox(height: 20.sp),
+                       Text("Sagesses débloquées",
                           style: TextStyle(
-                              fontFamily: "Inter SemiBold", fontSize: 19)),
-                      const SizedBox(height: 12),
+                              fontFamily: "Inter SemiBold", fontSize: 19.sp)),
+                       SizedBox(height: 12.sp),
                       GridView.builder(
                         shrinkWrap: true,
                         itemCount: achievements.length,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics:  const NeverScrollableScrollPhysics(),
                         gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           final achievement = achievements[index];
@@ -144,14 +145,14 @@ class AchievementsView extends ConsumerWidget {
                                           Align(
                                             alignment: Alignment.topLeft,
                                             child: Container(
-                                                width: 35,
+                                                width: 35.sp,
                                                 padding:
-                                                    const EdgeInsets.all(6.5),
+                                                     EdgeInsets.all(6.5.sp),
                                                 decoration: BoxDecoration(
                                                     color:
                                                         AppTheme.primaryColor,
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                         const BorderRadius.only(
                                                             topLeft:
                                                                 Radius.circular(
                                                                     10),
@@ -171,7 +172,7 @@ class AchievementsView extends ConsumerWidget {
                                                         (index + 1)
                                                             .toString(),
                                                         style: TextStyle(
-                                                            fontSize: 16,
+                                                            fontSize: 16.sp,
                                                             fontFamily:
                                                                 "Inter SemiBold",
                                                             color:
@@ -193,16 +194,16 @@ class AchievementsView extends ConsumerWidget {
                                                       : 0,
                                                   child: Text(
                                                       achievement.type,
-                                                      style: const TextStyle(
-                                                          fontSize: 18.5,
+                                                      style:  TextStyle(
+                                                          fontSize: 18.5.sp,
                                                           fontFamily:
                                                               "Inter Regular")),
                                                 ),
-                                                const SizedBox(height: 5),
+                                                 SizedBox(height: 5.sp),
                                                 Padding(
-                                                  padding: const EdgeInsets
+                                                  padding:  EdgeInsets
                                                           .symmetric(
-                                                      horizontal: 15),
+                                                      horizontal: 15.sp),
                                                   child: Blur(
                                                     colorOpacity: index >=
                                                             level
@@ -221,7 +222,7 @@ class AchievementsView extends ConsumerWidget {
                                                         textAlign:
                                                             TextAlign.justify,
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 14.sp,
                                                             fontFamily:
                                                                 "Inter SemiBold",
                                                             color: AppTheme
@@ -230,7 +231,7 @@ class AchievementsView extends ConsumerWidget {
                                                                     0.85))),
                                                   ),
                                                 ),
-                                                const SizedBox(height: 40)
+                                                 SizedBox(height: 40.sp)
                                               ],
                                             ),
                                           ),
@@ -239,18 +240,18 @@ class AchievementsView extends ConsumerWidget {
                                     ),
                                   )),
                               if (index >= level)
-                                const Center(
+                                 Center(
                                     child: Text("🔐",
-                                        style: TextStyle(fontSize: 45.5)))
+                                        style: TextStyle(fontSize: 45.5.sp)))
                             ]),
                           );
                         },
                       ),
-                      const SizedBox(height: 30),
+                       SizedBox(height: 30.sp),
                     ],
                   ),
                 ),
-                const SizedBox(height: 100),
+                 SizedBox(height: 100.sp),
               ])),
     );
   }

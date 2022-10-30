@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
 
 class ChallengeModal extends StatefulWidget {
-  const ChallengeModal({required this.newLevel, required this.onAccept, Key? key}) : super(key: key);
+  const ChallengeModal(
+      {required this.newLevel, required this.onAccept, Key? key})
+      : super(key: key);
 
   final int newLevel;
   final Function() onAccept;
@@ -19,39 +22,44 @@ class _ChallengeModalState extends State<ChallengeModal> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         backgroundColor: AppTheme.primaryColor,
         child: SizedBox(
-            height: 315,
+            height: 315.sp,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20.sp),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Bravo! (Niveau ${widget.newLevel})",
-                      style:
-                          const TextStyle(fontSize: 24, fontFamily: "Inter Regular")),
-                  const SizedBox(height: 12.5),
-                  const Text(
+                      style: TextStyle(
+                          fontSize: 24.sp, fontFamily: "Inter Regular")),
+                  SizedBox(height: 12.5.sp),
+                  Text(
                       "Grâce à vos efforts, vous venez de débloquer le niveau supérieur !\nVous avez débloqué une nouvelle sagesse : lisez la maintenant, ou plus tard en cliquant sur le trophée en bas au centre de l'écran.",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
-                          fontSize: 15.5, fontFamily: "Inter Regular")),
-                  const SizedBox(height: 27.5),
+                          fontSize: 15.5.sp, fontFamily: "Inter Regular")),
+                  SizedBox(height: 27.5.sp),
                   Row(
                     children: [
                       Expanded(
                           child: Opacity(
-                              opacity: 0.65,
+                              opacity: 0.7,
                               child: QadhaButton(
                                   text: "PLUS TARD",
+                                  fontSize: 17.sp,
                                   onTap: () {
                                     Navigator.pop(context);
                                   }))),
-                      const SizedBox(
-                        width: 5,
+                      SizedBox(
+                        width: 5.sp,
                       ),
-                      Expanded(child: QadhaButton(text: "LIRE", onTap: () {
-                        Navigator.pop(context);
-                        widget.onAccept();
-                        })),
+                      Expanded(
+                          child: QadhaButton(
+                              text: "LIRE",
+                              fontSize: 17.sp,
+                              onTap: () {
+                                Navigator.pop(context);
+                                widget.onAccept();
+                              })),
                     ],
                   ),
                 ],

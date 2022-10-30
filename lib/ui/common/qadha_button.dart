@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
 class QadhaButton extends StatefulWidget {
   const QadhaButton(
       {Key? key,
       this.text = "QadhaButton",
-      this.fontSize = 18,
+      this.fontSize = 16,
       this.radius = 5,
       this.isLoading = false,
       this.isEnabled = true,
@@ -40,20 +41,21 @@ class _QadhaButtonState extends State<QadhaButton> {
               borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
             ),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 12.5, horizontal: 5),
+              padding: EdgeInsets.symmetric(vertical: 12.5.sp, horizontal: 5.sp),
               child: widget.isLoading
                   ? Center(
                       child: SizedBox(
-                      width: 30,
+                      width: 25.sp,
+                      height: 25.sp,
                       child: CircularProgressIndicator(
-                          strokeWidth: 3, color: AppTheme.primaryColor),
+                          strokeWidth: 2.5.sp < 3 ? 3 : 2.5.sp, color: AppTheme.primaryColor),
                     ))
                   : Center(
                       child: Text(
                         widget.text,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: widget.fontSize,
+                          fontSize: widget.fontSize.sp,
                           fontFamily: "Inter Regular",
                           color: widget.isEnabled
                               ? AppTheme.primaryColor

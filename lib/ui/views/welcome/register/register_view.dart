@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/models/welcome/phone_registration.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
@@ -24,7 +25,6 @@ class RegisterView extends ConsumerWidget {
     await Future.delayed(const Duration(milliseconds: 1500));
 
     if (checkSession && FirebaseAuth.instance.currentUser != null) {
-      //await UserDataManager().getData(FirebaseAuth.instance.currentUser?.uid);
       // ignore: use_build_context_synchronously
       AutoRouter.of(context).popUntilRoot();
       // ignore: use_build_context_synchronously
@@ -38,8 +38,6 @@ class RegisterView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = MediaQuery.of(context).size;
-
     final state = ref.watch(registerProvider);
 
     return FutureBuilder(
@@ -51,7 +49,7 @@ class RegisterView extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0 ? 60 : 100),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0 ? 10.sp : 40.sp),
                   Expanded(
                       flex: MediaQuery.of(context).viewInsets.bottom != 0
                           ? 0
@@ -65,17 +63,21 @@ class RegisterView extends ConsumerWidget {
                             Column(
                               children: [
                                 SizedBox(
-                                    width: size.width / 1.3,
+                                    width: 0.8.sw,
+                                    height: 0.3.sh,
                                     child: Image.asset(
                                         "assets/images/welcome_logo.png")),
-                                const SizedBox(height: 15),
-                                Text(
-                                    "L'application qui te permets de rattraper tes prières manquées.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: AppTheme.primaryColor,
-                                        fontSize: 21,
-                                        fontFamily: "Inter Regular")),
+                                SizedBox(height: 15.sp),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                                  child: Text(
+                                      "L'application qui vous permet de rattraper des prières manquées.",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: AppTheme.primaryColor,
+                                          fontSize: 20.sp,
+                                          fontFamily: "Inter Regular")),
+                                ),
                               ],
                             ),
                         ],
@@ -84,7 +86,7 @@ class RegisterView extends ConsumerWidget {
                     Expanded(
                         flex: state.formHasError ? 14 : 6,
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            padding: EdgeInsets.symmetric(horizontal: 22.5.sp),
                             child: AccountBoxView(
                               title: "Créer un compte",
                               subtitle: "Bienvenue sur Qadha",
@@ -100,21 +102,21 @@ class RegisterView extends ConsumerWidget {
                                   if (state.formHasError)
                                     Column(
                                       children: [
-                                        const SizedBox(height: 5),
+                                        SizedBox(height: 5.sp),
                                         Text(state.errorMessage,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: AppTheme.alertColor,
-                                                fontSize: 14,
+                                                fontSize: 14.sp,
                                                 fontFamily: "Inter Regular")),
                                       ],
                                     ),
                                   Container(
-                                      height: 53.5,
-                                      margin: const EdgeInsets.only(top: 15),
+                                      height: 50.sp,
+                                      margin: EdgeInsets.only(top: 15.sp),
                                       child: QadhaButton(
                                           text: "C'est parti !",
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           isLoading: state.isWorking,
                                           onTap: () async {
                                             var registration =
@@ -136,7 +138,7 @@ class RegisterView extends ConsumerWidget {
                                 ],
                               ),
                             ))),
-                  SizedBox(height: snapshot.hasData ? 45 : 100)
+                  SizedBox(height: snapshot.hasData ? 40.sp : 100.sp)
                 ],
               )),
         );

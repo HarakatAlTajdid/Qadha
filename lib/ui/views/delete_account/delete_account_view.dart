@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/models/welcome/phone_registration.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
@@ -20,16 +21,14 @@ class DeleteAccountView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(deleteAccountProvider);
 
-    final size = MediaQuery.of(context).size;
-
     return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         backgroundColor: AppTheme.primaryColor,
         child: SizedBox(
-          height: 440,
+          height: 475.sp,
           child: Center(
             child: SizedBox(
-              height: 370,
+              height: 360.sp,
               child: AccountBoxView(
                 title: "Pour continuer, confirmez votre identité",
                 subtitle: "Toutes vos données seront effacées",
@@ -41,25 +40,25 @@ class DeleteAccountView extends ConsumerWidget {
                 onInteractiveTap: (e) {},
                 confirmWidget: Column(
                   children: [
-                    const SizedBox(height: 5),
+                     SizedBox(height: 5.sp),
                     if (state.formHasError)
                       Column(
                         children: [
-                          const SizedBox(height: 5),
+                           SizedBox(height: 5.sp),
                           Text(state.errorMessage,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: AppTheme.alertColor,
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontFamily: "Inter Regular")),
                         ],
                       ),
-                    const SizedBox(height: 15),
+                     SizedBox(height: 12.5.sp),
                     SizedBox(
-                        height: 53.5,
+                        height: 53.5.sp,
                         child: QadhaButton(
                             text: "Valider la suppression",
-                            fontSize: 18.5,
+                            fontSize: 16,
                             isLoading: state.isWorking,
                             onTap: () async {
                               final registration = PhoneRegistration(
@@ -70,9 +69,7 @@ class DeleteAccountView extends ConsumerWidget {
                               if (await ref
                                   .read(deleteAccountProvider.notifier)
                                   .deleteUser(registration)) {
-                                // ignore: use_build_context_synchronously
                                 Navigator.pop(context);
-                                // ignore: use_build_context_synchronously
                                 AutoRouter.of(context).replace(
                                     RegisterRoute(checkSession: false));
                               }

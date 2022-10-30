@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:qadha/providers/achievements/achievements_provider.dart';
@@ -43,7 +44,7 @@ class MainView extends ConsumerWidget {
             child: Icon(
               icon,
               color: AppTheme.primaryColor,
-              size: 42.5,
+              size: (42.5).sp,
             )),
       ),
     );
@@ -51,8 +52,6 @@ class MainView extends ConsumerWidget {
 
   Widget _buildSalatTile(
       BuildContext context, WidgetRef ref, String name, int remaining) {
-    final size = MediaQuery.of(context).size;
-
     final challengeStatus = ref.watch(achievementsProvider).challengeStatus;
 
     final progress = ref.read(statsProvider.notifier).getSpecificProgress(
@@ -62,11 +61,11 @@ class MainView extends ConsumerWidget {
       opacity: remaining == 0 ? 0.5 : 1,
       child: AbsorbPointer(
         absorbing: remaining == 0,
-        child: Column(
-          children: [
-            SizedBox(
-              width: size.width / 1.1,
-              child: Row(
+        child: FractionallySizedBox(
+          widthFactor: 0.95,
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Opacity(
@@ -81,9 +80,9 @@ class MainView extends ConsumerWidget {
                         }),
                       )),
                   SizedBox(
-                    width: size.width / 1.75,
+                    width: 0.65.sw,
                     child: Container(
-                      height: 42.5,
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
                       decoration: BoxDecoration(
                           color: AppTheme.secundaryColor,
                           borderRadius: BorderRadius.circular(5)),
@@ -91,7 +90,7 @@ class MainView extends ConsumerWidget {
                         child: Text(name,
                             style: TextStyle(
                                 color: AppTheme.primaryColor,
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontFamily: "Inter Bold")),
                       ),
                     ),
@@ -113,28 +112,26 @@ class MainView extends ConsumerWidget {
                       }))
                 ],
               ),
-            ),
-            const SizedBox(height: 1),
-            if (progress != -1)
-              FractionallySizedBox(
-                  widthFactor: 0.987,
-                  child: LinearPercentIndicator(
-                    lineHeight: 2,
-                    animationDuration: 2000,
-                    percent: max(progress, 0),
-                    trailing: Text(
-                        remaining == 0
-                            ? "aucune prière à rattraper      "
-                            : remaining == 1
-                                ? "encore 1 prière à rattraper    "
-                                : "encore $remaining prières à rattraper  ",
-                        style: const TextStyle(
-                            fontFamily: "Inter Regular", fontSize: 13)),
-                    barRadius: const Radius.circular(6),
-                    backgroundColor: AppTheme.deadColor.withOpacity(0.65),
-                    progressColor: AppTheme.accentColor,
-                  )),
-          ],
+              SizedBox(height: 1.sp),
+              if (progress != -1)
+                LinearPercentIndicator(
+                  lineHeight: (2.25).sp,
+                  animationDuration: 2000,
+                  percent: max(progress, 0),
+                  trailing: Text(
+                      remaining == 0
+                          ? "aucune prière à rattraper      "
+                          : remaining == 1
+                              ? "encore 1 prière à rattraper    "
+                              : "encore $remaining prières à rattraper  ",
+                      style: TextStyle(
+                          fontFamily: "Inter Regular", fontSize: 13.sp)),
+                  barRadius: const Radius.circular(6),
+                  backgroundColor: AppTheme.deadColor.withOpacity(0.65),
+                  progressColor: AppTheme.accentColor,
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -146,12 +143,16 @@ class MainView extends ConsumerWidget {
     final challengeStatus = ref.watch(achievementsProvider).challengeStatus;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 20.sp),
       child: Stack(
         children: [
-          SvgPicture.asset(
-            "assets/images/ladderbg.svg",
-            fit: BoxFit.cover,
+          SizedBox(
+            width: 1.sw,
+            height: 1.sh,
+            child: SvgPicture.asset(
+              "assets/images/ladderbg.svg",
+              fit: BoxFit.contain
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,14 +160,14 @@ class MainView extends ConsumerWidget {
               Center(
                   child: Image.asset(
                 "assets/images/qadha_blue.png",
-                width: 52.5,
+                width: 50.sp,
               )),
-              const SizedBox(height: 25),
+              SizedBox(height: 15.sp),
               if (!listEquals(remainingPrayers, [0, 0, 0, 0, 0]))
-                const Text("Combien de prières rattrapées aujourd'hui ?",
+                Text("Combien de prières rattrapées aujourd'hui ?",
                     style:
-                        TextStyle(fontSize: 14.5, fontFamily: "Inter Regular")),
-              const SizedBox(height: 7.5),
+                        TextStyle(fontSize: 14.5.sp, fontFamily: "Inter Regular")),
+              SizedBox(height: 7.5.sp),
               Expanded(
                 child: listEquals(remainingPrayers, [0, 0, 0, 0, 0])
                     ? Column(
@@ -181,14 +182,17 @@ class MainView extends ConsumerWidget {
                             ),
                             child: Column(
                               children: [
-                                const FractionallySizedBox(
-                                    widthFactor: 0.85,
-                                    child: Text(
-                                        "Pour permettre à Qadha de calculer les prières à rattraper, ajoutez des calendriers liés aux différentes périodes pendant lesquelles vous estimez ne pas avoir prié.",
-                                        textAlign: TextAlign.justify,
-                                        style: TextStyle(
-                                            fontFamily: "Inter Regular",
-                                            fontSize: 18))),
+                                Padding(
+                                  padding: EdgeInsets.all(8.sp),
+                                  child: FractionallySizedBox(
+                                      widthFactor: 0.85,
+                                      child: Text(
+                                          "Pour permettre à Qadha de calculer les prières à rattraper, ajoutez des calendriers liés aux différentes périodes pendant lesquelles vous estimez ne pas avoir prié.",
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                              fontFamily: "Inter Regular",
+                                              fontSize: 17.sp))),
+                                ),
                                 const SizedBox(height: 25),
                                 FractionallySizedBox(
                                   widthFactor: 0.8,
@@ -223,7 +227,7 @@ class MainView extends ConsumerWidget {
                         ],
                       ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.sp),
               Opacity(
                 opacity:
                     listEquals(remainingPrayers, [0, 0, 0, 0, 0]) ? 0.6 : 1,
@@ -232,10 +236,10 @@ class MainView extends ConsumerWidget {
                     FractionallySizedBox(
                         widthFactor: 0.75,
                         child: LinearPercentIndicator(
-                          lineHeight: 18,
+                          lineHeight: 18.sp,
                           percent: challengeStatus / 20,
                           trailing: Text("${challengeStatus * 5}%",
-                              style: const TextStyle(fontFamily: "Inter Regular")),
+                              style: TextStyle(fontFamily: "Inter Regular", fontSize: 13.sp)),
                           barRadius: const Radius.circular(6),
                           backgroundColor: AppTheme.deadColor.withOpacity(0.65),
                           progressColor: AppTheme.accentColor,
@@ -243,8 +247,8 @@ class MainView extends ConsumerWidget {
                     const SizedBox(height: 12.5),
                     Text(
                         "Plus que ${20 - challengeStatus} avant de débloquer une nouvelle sagesse",
-                        style: const TextStyle(
-                            fontFamily: "Inter Regular", fontSize: 13.5)),
+                        style: TextStyle(
+                            fontFamily: "Inter Regular", fontSize: 13.5.sp)),
                   ],
                 ),
               ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
 class QadhaPhoneInput extends StatefulWidget {
-  const QadhaPhoneInput(
+   const QadhaPhoneInput(
     this.codeController,
     this.numController, {
     Key? key,
@@ -20,19 +21,17 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Container(
       decoration: BoxDecoration(
           color: AppTheme.primaryColor,
           border: Border.all(color: AppTheme.deadColor),
-          borderRadius: const BorderRadius.all(Radius.circular(3))),
-      padding: const EdgeInsets.only(left: 15),
+          borderRadius:  const BorderRadius.all(Radius.circular(3))),
+      padding: EdgeInsets.only(left: 15.sp),
       child: Row(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 10),
-            padding: const EdgeInsets.only(left: 10, right: 5),
+            margin:  EdgeInsets.symmetric(vertical: 10.sp),
+            padding:  EdgeInsets.only(left: 10.sp, right: 5.sp),
             decoration: BoxDecoration(
                 color: AppTheme.secundaryColor,
                 borderRadius: BorderRadius.circular(7.5)),
@@ -42,13 +41,13 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
                     style: TextStyle(
                         color: AppTheme.primaryColor,
                         fontWeight: FontWeight.w500,
-                        fontSize: 18)),
-                const SizedBox(width: 5),
+                        fontSize: 18.sp)),
+                 SizedBox(width: 5.sp),
                 SizedBox(
-                    width: 40,
+                    width: 35.sp,
                     child: TextField(
                       controller: widget.codeController,
-                      autofillHints: const [
+                      autofillHints:  const [
                         AutofillHints.telephoneNumberCountryCode
                       ],
                       decoration: InputDecoration(
@@ -60,24 +59,24 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
                           )),
                       style: TextStyle(
                         color: AppTheme.primaryColor,
-                          fontWeight: FontWeight.w500, fontSize: 18),
+                          fontWeight: FontWeight.w500, fontSize: 17.sp),
                       keyboardType: TextInputType.number,
                     )),
               ],
             ),
           ),
-          const SizedBox(width: 10),
+           SizedBox(width: 10.sp),
           SizedBox(
-            width: (size.width / 1.75 > 150) ? 150 : (size.width / 1.75),
+            width: 0.35.sw,
             child: TextField(
               controller: widget.numController,
               autocorrect: false,
-              autofillHints: const [AutofillHints.telephoneNumberNational],
+              autofillHints:  const [AutofillHints.telephoneNumberNational],
               textInputAction: TextInputAction.next,
-              style: const TextStyle(
+              style:  TextStyle(
                   color: Colors.black,
                   fontFamily: "Inter Regular",
-                  fontSize: 18),
+                  fontSize: 17.sp),
               decoration: InputDecoration(
                   hintText: "6 11 12 13 14",
                   hintStyle: TextStyle(color: Colors.grey.withOpacity(0.8)),

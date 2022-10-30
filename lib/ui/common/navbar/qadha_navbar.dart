@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
@@ -30,20 +31,18 @@ class _QadhaNavbarState extends State<QadhaNavbar> {
   }
 
   Widget _buildItem(QadhaNavbarItem item) {
-    final size = MediaQuery.of(context).size;
-
     return Container(
-      width: size.width / widget.items.length,
-      height: 100,
+      width: 1.sw / widget.items.length,
+      height: 100.sp,
       decoration: BoxDecoration(
           border: Border(
               top: BorderSide(
                   color: selectedItem.label == item.label
                       ? AppTheme.secundaryColor
                       : AppTheme.primaryColor,
-                  width: 4))),
+                  width: 4.sp))),
       child: Padding(
-          padding: const EdgeInsets.only(bottom: 40, top: 10),
+          padding: EdgeInsets.only(bottom: 40.sp, top: 10.sp),
           child: InkWell(
               borderRadius: BorderRadius.circular(25),
               onTap: () {
@@ -52,7 +51,12 @@ class _QadhaNavbarState extends State<QadhaNavbar> {
                 });
                 widget.onSelectionChanged(item.index);
               },
-              child: SvgPicture.asset(item.assetPath, fit: BoxFit.none))),
+              child: Center(
+                child: SizedBox(
+                  width: 40.sp,
+                  height: item.label == "Trophées" ? 32.sp : 25.sp,
+                  child: SvgPicture.asset(item.assetPath, fit: BoxFit.contain)),
+              ))),
     );
   }
 

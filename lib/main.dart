@@ -7,15 +7,19 @@ import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/navbar/qadha_navbar.dart';
 import 'package:qadha/ui/common/navbar/qadha_navbar_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await ScreenUtil.ensureScreenSize();
   initializeDateFormatting("fr_fr");
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(child: MyApp())
+   );
 }
 
 class MyApp extends ConsumerWidget {
@@ -25,10 +29,15 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
-      debugShowCheckedModeBanner: false,
+    return ScreenUtilInit(
+      minTextAdapt: true,
+      builder: (BuildContext context, Widget? child) { 
+        return MaterialApp.router(
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
+      );
+       },
     );
   }
 }
@@ -65,45 +74,28 @@ class _HomeViewState extends State<HomeView> {
         appBarBuilder: (_, tabsRouter) => AppBar(
               backgroundColor: AppTheme.primaryColor,
               centerTitle: true,
-              toolbarHeight: 70,
+              toolbarHeight: 70.sp,
               shadowColor: Colors.transparent,
               title: Text(navbarItems[tabsRouter.activeIndex].label,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontFamily: "Inter Regular")),
               bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(1.0),
+                  preferredSize: Size.fromHeight(1.sp),
                   child: Container(
                     color: AppTheme.deadColor,
-                    height: 0.65,
+                    height: 0.65.sp,
                   )),
-              leadingWidth: 44,
+              leadingWidth: 44.sp,
               leading: Padding(
-                  padding: const EdgeInsets.only(left: 17.5),
+                  padding: EdgeInsets.only(left: 17.5.sp),
                   child: Image.asset(
                     "assets/images/qadha_blue.png",
                     fit: BoxFit.fitWidth,
                     colorBlendMode: BlendMode.srcIn,
                     color: Colors.grey
                   )),
-              /*actions: [
-                SizedBox(
-                  width: 70,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SvgPicture.asset("assets/images/icons/bell.svg"),
-                      const SizedBox(width: 2.5),
-                      CircleAvatar(
-                        backgroundColor: AppTheme.deadColor,
-                        radius: 10,
-                      ),
-                      const SizedBox(width: 7.5)
-                    ],
-                  ),
-                ),
-              ],*/
             ),
         bottomNavigationBuilder: (_, tabsRouter) {
           return QadhaNavbar(

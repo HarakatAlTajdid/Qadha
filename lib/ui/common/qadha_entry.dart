@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 
@@ -31,12 +32,11 @@ class _QadhaEntryState extends State<QadhaEntry> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(0),
       decoration: BoxDecoration(
           color: AppTheme.primaryColor,
           border: Border.all(color: AppTheme.deadColor),
           borderRadius: const BorderRadius.all(Radius.circular(3))),
-      padding: const EdgeInsets.only(left: 15),
+      padding: EdgeInsets.only(left: 12.sp, right: 6.sp),
       child: TextField(
         controller: widget.controller,
         autocorrect: false,
@@ -58,7 +58,8 @@ class _QadhaEntryState extends State<QadhaEntry> {
                                 isPasswordShown
                                     ? MdiIcons.eyeOff
                                     : MdiIcons.eye,
-                                color: Colors.grey),
+                                color: Colors.grey,
+                                size: 16.sp),
                             onPressed: () {
                               setState(() {
                                 isPasswordShown = !isPasswordShown;

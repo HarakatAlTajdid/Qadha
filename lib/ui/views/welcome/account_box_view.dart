@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_entry.dart';
 import 'package:qadha/ui/common/qadha_phone_input.dart';
@@ -37,14 +38,14 @@ class _AccountBoxViewState extends State<AccountBoxView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 25),
+        SizedBox(height: 25.sp),
         Text(widget.title,
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black,
-                fontSize: 22,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w400,
                 fontFamily: "Inter SemiBold")),
-        const SizedBox(height: 2.5),
+        SizedBox(height: 2.5.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -52,17 +53,17 @@ class _AccountBoxViewState extends State<AccountBoxView> {
                 style: TextStyle(
                     color: widget.redSubtitle ? Colors.red : Colors.grey,
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     fontFamily: widget.redSubtitle ? "Inter Bold" : "Inter SemiBold")),
             if (widget.interactiveText.isNotEmpty)
               SizedBox(
-                height: 32,
+                height: 32.sp,
                 child: TextButton(
                   onPressed: () {
                     widget.onInteractiveTap(context);
                   },
                   child: Text(widget.interactiveText,
-                      style: const TextStyle(color: Colors.purple)),
+                      style: TextStyle(color: Colors.purple, fontSize: 13.sp)),
                 ),
               ),
           ],
@@ -81,25 +82,25 @@ class _AccountBoxViewState extends State<AccountBoxView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-                padding: const EdgeInsets.only(left: 20, right: 15),
+                padding: EdgeInsets.only(left: 20.sp, right: 15.sp),
                 child: _buildHeader()),
-            const SizedBox(height: 5),
-            Divider(thickness: 2, color: AppTheme.deadColor.withOpacity(0.45)),
-            const SizedBox(height: 6),
+             SizedBox(height: 5.sp),
+            Divider(thickness: 2.sp, color: AppTheme.deadColor.withOpacity(0.45)),
+             SizedBox(height: 8.sp),
             FractionallySizedBox(
               widthFactor: 0.92,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   QadhaPhoneInput(widget.codeController, widget.numController),
-                  const SizedBox(height: 12.5),
+                   SizedBox(height: 12.5.sp),
                   QadhaEntry(
                     controller: widget.passwordController,
                     hint: "Mot de passe",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     isPassword: true,
                     autofillHints: widget.title == "Se connecter"
-                        ? const [AutofillHints.password]
+                        ?  [AutofillHints.password]
                         : null,
                     textInputAction: TextInputAction.done,
                   ),
@@ -107,7 +108,7 @@ class _AccountBoxViewState extends State<AccountBoxView> {
                 ],
               ),
             ),
-            const SizedBox(height: 15),
+             SizedBox(height: 15.sp),
           ],
         ));
   }

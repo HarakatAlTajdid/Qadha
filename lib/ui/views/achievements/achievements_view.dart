@@ -29,16 +29,18 @@ class AchievementsView extends ConsumerWidget {
                       child: Text(
                           achievement.type == "Hadith"
                               ? "Hadith authentique"
-                              : "Verset coranique",
+                              : (achievement.type == "Histoire" ? "Histoire" : "Verset coranique"),
                           style: TextStyle(
                               fontSize: 17.sp, fontFamily: "Inter SemiBold"))),
                   Divider(thickness: 1.5.sp),
                   SizedBox(height: 10.sp),
-                  SelectableText(achievement.text,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                          fontSize: 17.5.sp, fontFamily: "Inter Regular")),
-                  SizedBox(height: 150.sp),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 0.7.sh),
+                    child: SelectableText("${achievement.text}\n\n\n\n\n",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            fontSize: 17.5.sp, fontFamily: "Inter Regular")),
+                  ),
                 ],
               ),
             ));

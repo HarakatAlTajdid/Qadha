@@ -7,6 +7,7 @@ import 'package:qadha/models/welcome/phone_registration.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
+import 'package:qadha/ui/common/social_media_button.dart';
 
 import '../account_box_view.dart';
 import 'state/register_viewmodel.dart';
@@ -49,13 +50,14 @@ class RegisterView extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom == 0 ? 10.sp : 40.sp),
+                  if (MediaQuery.of(context).viewInsets.bottom != 0)
+                    SizedBox(height: 80.sp),
                   Expanded(
                       flex: MediaQuery.of(context).viewInsets.bottom != 0
                           ? 0
                           : state.formHasError
-                              ? 15
-                              : 7,
+                              ? 10
+                              : 5,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -64,12 +66,12 @@ class RegisterView extends ConsumerWidget {
                               children: [
                                 SizedBox(
                                     width: 0.8.sw,
-                                    height: 0.3.sh,
+                                    height: 0.15.sh,
                                     child: Image.asset(
                                         "assets/images/welcome_logo.png")),
-                                SizedBox(height: 15.sp),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.sp),
                                   child: Text(
                                       "L'application qui vous permet de rattraper des prières manquées.",
                                       textAlign: TextAlign.center,
@@ -111,6 +113,15 @@ class RegisterView extends ConsumerWidget {
                                                 fontFamily: "Inter Regular")),
                                       ],
                                     ),
+                                  SizedBox(height: 20.sp),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: const [
+                                        SocialMediaButton("google"),
+                                        SocialMediaButton("apple"),
+                                      ]),
+                                  SizedBox(height: 2.5.sp),
                                   Container(
                                       height: 50.sp,
                                       margin: EdgeInsets.only(top: 15.sp),

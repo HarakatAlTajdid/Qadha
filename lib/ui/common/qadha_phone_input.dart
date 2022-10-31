@@ -25,7 +25,7 @@ class _QadhaPhoneInputState extends State<QadhaPhoneInput> {
       decoration: BoxDecoration(
           color: AppTheme.primaryColor,
           border: Border.all(color: AppTheme.deadColor),
-          borderRadius:  const BorderRadius.all(Radius.circular(3))),
+          borderRadius:  const BorderRadius.all(Radius.circular(10))),
       padding: EdgeInsets.only(left: 15.sp),
       child: Row(
         children: [

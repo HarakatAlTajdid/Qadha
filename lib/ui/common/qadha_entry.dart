@@ -35,7 +35,7 @@ class _QadhaEntryState extends State<QadhaEntry> {
       decoration: BoxDecoration(
           color: AppTheme.primaryColor,
           border: Border.all(color: AppTheme.deadColor),
-          borderRadius: const BorderRadius.all(Radius.circular(3))),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       padding: EdgeInsets.only(left: 12.sp, right: 6.sp),
       child: TextField(
         controller: widget.controller,

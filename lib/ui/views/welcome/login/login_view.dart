@@ -6,6 +6,7 @@ import 'package:qadha/models/welcome/phone_registration.dart';
 import 'package:qadha/ui/app/app_router.gr.dart';
 import 'package:qadha/ui/app/app_theme.dart';
 import 'package:qadha/ui/common/qadha_button.dart';
+import 'package:qadha/ui/common/social_media_button.dart';
 import 'package:qadha/ui/views/welcome/account_box_view.dart';
 import 'package:qadha/ui/views/welcome/login/state/login_viewmodel.dart';
 
@@ -42,8 +43,10 @@ class LoginView extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (MediaQuery.of(context).viewInsets.bottom != 0)
+                SizedBox(height: 7.5.sp),
               Expanded(
-                  flex: 18,
+                  flex: MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 12,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -54,23 +57,12 @@ class LoginView extends ConsumerWidget {
                                 width: 0.3.sw,
                                 child: Image.asset(
                                     "assets/images/qadha_white.png")),
-                            SizedBox(height: 20.sp),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              child: Text(
-                                  "L'application qui vous permet de rattraper des prières manquées.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: AppTheme.primaryColor,
-                                      fontSize: 20.sp,
-                                      fontFamily: "Inter Regular")),
-                            ),
                           ],
                         ),
                     ],
                   )),
               Expanded(
-                  flex: 21,
+                  flex: 25,
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 22.5.sp),
                       child: AccountBoxView(
@@ -98,7 +90,15 @@ class LoginView extends ConsumerWidget {
                                           fontFamily: "Inter Regular")),
                                 ],
                               ),
-                            SizedBox(height: 15.sp),
+                                                              SizedBox(height: 20.sp),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: const [
+                                        SocialMediaButton("google"),
+                                        SocialMediaButton("apple"),
+                                      ]),
+                                  SizedBox(height: 15.sp),
                             SizedBox(
                                 height: 50.sp,
                                 child: QadhaButton(

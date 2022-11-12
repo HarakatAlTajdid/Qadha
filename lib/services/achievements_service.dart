@@ -42,10 +42,11 @@ class AchievementsService {
     if (snapshot.data() != null &&
         snapshot.data()!.containsKey("challengeStatus")) {
       final actualStatus = snapshot.data()!["challengeStatus"] as int;
-
-      snapshotRef.set({
-        "challengeStatus": actualStatus + increment,
-      }, SetOptions(merge: true));
+      if (actualStatus + increment >= 0) {
+        snapshotRef.set({
+          "challengeStatus": actualStatus + increment,
+        }, SetOptions(merge: true));
+      }
     } else {
       // If field doesn't exist, increment can only be 1
       snapshotRef.set({

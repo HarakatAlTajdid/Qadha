@@ -84,8 +84,11 @@ class StatsView extends ConsumerWidget {
           sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 35.sp,
-              interval: 20,
-              getTitlesWidget: (_, meta) {
+              getTitlesWidget: (v, meta) {
+                if (v == meta.max || v == meta.min) {
+                  return Container();
+                }
+                
                 return Text(meta.formattedValue,
                     style: TextStyle(color: Colors.black54, fontSize: 13.sp));
               }),
@@ -151,7 +154,6 @@ class StatsView extends ConsumerWidget {
               getTitlesWidget: (_, meta) {
                 final day = DateTime.now().subtract(
                     Duration(days: 30 - int.parse(meta.formattedValue)));
-
                 return Padding(
                     padding: EdgeInsets.only(top: 9.sp),
                     child: Text(day.day.toString(),
@@ -166,8 +168,11 @@ class StatsView extends ConsumerWidget {
           sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 35.sp,
-              interval: 5,
-              getTitlesWidget: (_, meta) {
+              getTitlesWidget: (v, meta) {
+                if (v == meta.max || v == meta.min) {
+                  return Container();
+                }
+
                 return Text(meta.formattedValue,
                     style: TextStyle(color: Colors.black54, fontSize: 13.sp));
               }),

@@ -110,7 +110,11 @@ class SettingsView extends ConsumerWidget {
                   AutoRouter.of(context)
                       .replace(RegisterRoute(checkSession: false));
                 })),
-        SizedBox(height: 30.sp)
+        SizedBox(height: 15.sp),
+        if (FirebaseAuth.instance.currentUser != null)
+          SelectableText("Code utilisateur : ${FirebaseAuth.instance.currentUser!.uid}",
+              style: TextStyle(fontSize: 14.sp)),
+        SizedBox(height: 15.sp)
       ]),
     );
   }

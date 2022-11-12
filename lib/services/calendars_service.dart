@@ -33,17 +33,24 @@ class CalendarService {
 
     // Accordingly increment remaining prayers
     final statsDocRef = userDataRef.collection("stats");
-    final statsSnapshot = await statsDocRef.get();
 
-    for (final prayer in statsSnapshot.docs) {
-      final data = prayer.data();
+    for (final prayer in ["fajr", "dhor", "asr", "maghreb", "icha"]) {
+      var prayerDoc = await statsDocRef.doc(prayer).get();
+      if (!(await statsDocRef.doc(prayer).get()).exists) {
+        await statsDocRef.doc(prayer).set({
+          "remaining": 0
+        });
+        prayerDoc = await statsDocRef.doc(prayer).get();
+      }
+      
+      final data = prayerDoc.data()!;
 
       int remaining = 0;
       if (data.containsKey("remaining")) {
         remaining = data["remaining"] as int;
       }
 
-      await statsDocRef.doc(prayer.id).set(
+      await statsDocRef.doc(prayer).set(
           {"remaining": remaining + calendar.totalDays()},
           SetOptions(merge: true));
     }

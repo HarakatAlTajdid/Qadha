@@ -43,8 +43,11 @@ class StatsService {
         statsSnapshot.data()!.containsKey("activities")) {
       final activities =
           statsSnapshot.data()!["activities"] as Map<String, dynamic>;
+      
       if (activities.containsKey(formatDate(date))) {
-        activities[formatDate(date)] += increment;
+        if (activities[formatDate(date)] + increment > 0) {
+          activities[formatDate(date)] += increment;
+        }
       } else {
         activities[formatDate(date)] = 1;
       }
@@ -62,7 +65,9 @@ class StatsService {
       var remaining = statsSnapshot.data()!["remaining"] as int;
       remaining -= increment;
 
-      statsDocRef.set({"remaining": remaining}, SetOptions(merge: true));
+      if (remaining >= 0) {
+        statsDocRef.set({"remaining": remaining}, SetOptions(merge: true));
+      }
     }
   }
 

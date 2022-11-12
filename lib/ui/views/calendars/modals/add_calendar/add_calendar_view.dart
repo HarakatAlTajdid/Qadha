@@ -54,7 +54,7 @@ class AddCalendarModal extends ConsumerWidget {
         SizedBox(height: state.end != null ? 20.sp : 30.sp),
         if (state.calendarOverlapError)
                 Padding(
-                  padding: EdgeInsets.only(bottom: 20.sp),
+                  padding: EdgeInsets.only(bottom: 12.sp),
                   child: FractionallySizedBox(
                       widthFactor: 0.85,
                       child: Text(
@@ -62,7 +62,8 @@ class AddCalendarModal extends ConsumerWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: AppTheme.alertColor,
-                              fontFamily: "Inter SemiBold"))),
+                              fontFamily: "Inter SemiBold",
+                              fontSize: 14.sp))),
                 ),
         if (state.end == null)
           FractionallySizedBox(
@@ -84,7 +85,7 @@ class AddCalendarModal extends ConsumerWidget {
                   child: QadhaButton(
                       text: "Valider",
                       isLoading: state.isWorking,
-                      fontSize: 16.sp,
+                      fontSize: 22,
                       onTap: () async {
                         final added = await ref
                             .read(addCalendarProvider.notifier)

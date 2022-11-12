@@ -45,7 +45,7 @@ class StatsService {
           statsSnapshot.data()!["activities"] as Map<String, dynamic>;
       
       if (activities.containsKey(formatDate(date))) {
-        if (activities[formatDate(date)] + increment > 0) {
+        if (activities[formatDate(date)] + increment >= 0) {
           activities[formatDate(date)] += increment;
         }
       } else {

@@ -36,7 +36,7 @@ class CalendarService {
 
     for (final prayer in ["fajr", "dhor", "asr", "maghreb", "icha"]) {
       var prayerDoc = await statsDocRef.doc(prayer).get();
-      if (!(await statsDocRef.doc(prayer).get()).exists) {
+      if (!prayerDoc.exists) {
         await statsDocRef.doc(prayer).set({
           "remaining": 0
         });

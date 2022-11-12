@@ -113,6 +113,7 @@ class RegisterView extends ConsumerWidget {
                                                 fontFamily: "Inter Regular")),
                                       ],
                                     ),
+                                  /*
                                   SizedBox(height: 20.sp),
                                   Row(
                                       mainAxisAlignment:
@@ -121,6 +122,7 @@ class RegisterView extends ConsumerWidget {
                                         SocialMediaButton("google"),
                                         SocialMediaButton("apple"),
                                       ]),
+                                  */
                                   SizedBox(height: 2.5.sp),
                                   Container(
                                       height: 50.sp,

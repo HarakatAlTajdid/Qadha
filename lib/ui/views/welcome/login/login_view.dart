@@ -90,15 +90,17 @@ class LoginView extends ConsumerWidget {
                                           fontFamily: "Inter Regular")),
                                 ],
                               ),
-                                                              SizedBox(height: 20.sp),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: const [
-                                        SocialMediaButton("google"),
-                                        SocialMediaButton("apple"),
-                                      ]),
-                                  SizedBox(height: 15.sp),
+                            /*
+                            SizedBox(height: 20.sp),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  SocialMediaButton("google"),
+                                  SocialMediaButton("apple"),
+                                ]),
+                            */
+                            SizedBox(height: 15.sp),
                             SizedBox(
                                 height: 50.sp,
                                 child: QadhaButton(
